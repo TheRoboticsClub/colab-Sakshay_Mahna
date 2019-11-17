@@ -7,14 +7,14 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Welcome to Jekyll!</title>
+        <title>Dark GIFs</title>
         <description>
           
-          You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when...
+          Tweaking the launch files to import the required models and; updating and organizing the follow_line exercise webpage, were the main tasks of this week. The light part of this week As discussed with José Sir, I am to update the webpage of the follow_line exercise. The webpage was missing Theory,...
         </description>
-        <pubDate>Mon, 11 Nov 2019 18:14:16 +0000</pubDate>
-        <link>http://localhost:4000/2019-11-11-welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019-11-11-welcome-to-jekyll/</guid>
+        <pubDate>Sun, 17 Nov 2019 05:15:00 +0000</pubDate>
+        <link>http://localhost:4000/2019-11-17-dark-gifs/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019-11-17-dark-gifs/</guid>
       </item>
     
   </channel>
