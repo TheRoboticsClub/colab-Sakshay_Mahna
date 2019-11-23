@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Way to EDITH</title>
+
+  <meta name="author" content="Sakshay Mahna" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Progress Blog - -- JDE Robotics" href="/colab-Sakshay_Mahna/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Way to EDITH" />
+  
+
+   
+  <meta property="og:description" content="Many curious questions left at the end of this week. What is JDERobot exactly? How exactly to use the ICE Framework? Where is it being used in JDERobot? The COOL part! After merging of the pull request, I wanted to solve some other exercise, follow_road. Seeing unknown terms like mavros...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2019-11-23-way-to-edith/" />
+  <link rel="canonical" href="http://localhost:4000/2019-11-23-way-to-edith/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/logo.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Way to EDITH" />
+  
+
+  
+  <meta name="twitter:description" content="Many curious questions left at the end of this week. What is JDERobot exactly? How exactly to use the ICE Framework? Where is it being used in JDERobot? The COOL part! After merging of the pull request, I wanted to solve some other exercise, follow_road. Seeing unknown terms like mavros...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/logo.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Progress Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/colab-Sakshay_Mahna/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000">
+	      <img class="avatar-img" src="/colab-Sakshay_Mahna/img/logo.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Way to EDITH</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on November 23, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <p>Many curious questions left at the end of this week. What is JDERobot exactly? How exactly to use the ICE Framework? Where is it being used in JDERobot?</p>
+
+<h3 id="the-cool-part">The COOL part!</h3>
+
+<p><img src="https://media2.govtech.com/images/940*630/DroneFeature1.jpg" alt="Drone" /></p>
+
+<p>After merging of the pull request, I wanted to solve some other exercise, <a href="https://github.com/JdeRobot/RoboticsAcademy/tree/master/exercises/follow_road">follow_road</a>. Seeing unknown terms like mavros and PX4, my curious mind decided to read about it before working on solving the problem. So, here is what I read:</p>
+
+<p>Unmanned robotic vehicles remotely or autonomously controlled are called drones. Since my birth ( or till heard the word ‘drone’ ), I considered only autonomous flying robots as a drone, but almost all vehicles, be it aerial, underwater or ground are considered drones.</p>
+
+<p><strong>Please Note that I will be using the word Drone for unmanned aerial vehicles, inspite of telling the difference in the first sentence.</strong></p>
+
+<p>Acurate and quick control are major concerns while controlling an aerial drone. Therefore, control of these drones require special software and hardware for appropriate control.</p>
+
+<p>In a nutshell, the “brain” of the drone is called an autopilot. It consists of flight stack software running on the drone controller hardware. The drone controller hardware is given commands from another software called the Ground Control Station.</p>
+
+<p><img src="https://raw.githubusercontent.com/MishkaRogachev/JAGCS/master/ui.png" alt="Something just like this" /></p>
+
+<p><a href="https://pixhawk.org/">Pixhawk</a> is one such open source hardware project that provides autopilot hardware designs. Pixhawk supports flight stacks such as <a href="https://px4.io/">PX4</a> or <a href="http://ardupilot.org/">Ardupilot</a>, that run on the OS <a href="https://nuttx.org/">NuttX</a>.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/MAVLink">MAVLink</a>, Micro Air Vehicle is one of those protocols used for communicating with aerial drones, from a ground control station. Apart from commands, orientation of vehicle, GPS location and speed can be communicated to the drone as well.</p>
+
+<p><a href="http://qgroundcontrol.com/">QGroundControl</a> is an example of a Ground Control Station that utilises MAVLink protocol, that runs on almost all platforms, be it Windows, Android or MacOS.</p>
+
+<p>Loads of definitions! But, these are the practical aspects that are currently in use. Have to read about the basics as well in order to learn better about them.</p>
+
+<p>Just for everyone’s information, the title of this blog is inspired from the movie SpiderMan: Far from Home, in which Tony Stark(Iron Man) developed a drone based project called EDITH. It was really fun reading about the autopilot systems as I was continously inspired by the thought of making such fiction come into life, hence the title.</p>
+
+<p><img src="../assets/edith.gif" alt="EDITH" /></p>
+
+<h3 id="loads-of-questions">Loads of Questions!</h3>
+
+<p>Another task I had this week, was to read about the Ice framework. JDERobot uses the ICE framework behind some of its applications, so this was a great thing to read about.</p>
+
+<p>The journey started with this <a href="https://gsyc.urjc.es/jmplaza/papers/waf2016-roscompatibility.pdf">research-paper</a> written by 2 great people. It was fun reading the paper, as I could understand it quite well. The paper involved the translation of existing JDERobot components to ROS based implementation. Now, on to Ice!</p>
+
+<p><a href="https://zeroc.com/products/ice">Ice by ZeroC</a> is an <a href="https://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a>(Remote Procedure Call) based framework. What makes Ice useful are it’s object oriented client-server based applications. These client-server applications can be written in different languages, …a lot of different languages, C++, C#, Java, Javascript, Python and more(as written on the official website).</p>
+
+<p>After this amount of theory, lets get practical now!</p>
+
+<p><img src="../assets/practical.jpg" alt="Practical" /></p>
+
+<p>Getting practical started with looking at the documentation and some example codes of the project. But as everyone knows, only reading about implementation is whole lot different than using it in practical designs. Therefore, getting an overview was enough for now, the implementation will be learned with time.</p>
+
+<p><img src="https://spiritualcleansing.org/wp-content/uploads/2015/04/Tell-me-and-I-forget-teach-me-and-I-may-remember-involve-me-and-I-learn..jpg" alt="Quote for Learning" /></p>
+
+<p>Hence, I thought the best use case of this learning would be to see where and how is it being used in JDERobot. Quite a lot of searching the repository left me more curious, as I have still not figured out where Ice is being used! Hence, more reading and doubt clearance, will be the tasks for next week!</p>
+
+<h3 id="references">References</h3>
+
+<p><a href="https://docs.px4.io/v1.9.0/en/getting_started/px4_basic_concepts.html">DOCS PX4</a></p>
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Way+to+EDITH+http://localhost:4000/2019-11-23-way-to-edith/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2019-11-23-way-to-edith/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2019-11-23-way-to-edith/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/colab-Sakshay_Mahna/2019-11-17-dark-gifs/" data-toggle="tooltip" data-placement="top" title="Dark GIFs">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+          
+        <div class="staticman-comments">
+          
+
+        </div>
+        <div class="justcomments-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/colab-Sakshay_Mahna/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:sakshum19@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/SakshayMahna" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/MahnaSakshay" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/sakshaymahna" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Sakshay Mahna
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/colab-Sakshay_Mahna/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/main.js"></script>
+    
+  
+
+
+  
+  </body>
+</html>
