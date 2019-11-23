@@ -13,7 +13,7 @@ Many curious questions left at the end of this week. What is JDERobot exactly? H
 
 After merging of the pull request, I wanted to solve some other exercise, [follow_road](https://github.com/JdeRobot/RoboticsAcademy/tree/master/exercises/follow_road). Seeing unknown terms like mavros and PX4, my curious mind decided to read about it before working on solving the problem. So, here is what I read:
 
-Unmanned robotic vehicles remotely or autonomously controlled are called drones. Since my birth ( or till heard the word 'drone' ), I considered only autonomous flying robots as a drone, but almost all vehicles, be it aerial, underwater or ground are considered drones.
+Unmanned robotic vehicles remotely or autonomously controlled are called drones. Since my birth ( or since I heard the word 'drone' ), I considered only autonomous flying robots as a drone, but almost all vehicles, be it aerial, underwater or ground are considered drones.
 
 **Please Note that I will be using the word Drone for unmanned aerial vehicles, inspite of telling the difference in the first sentence.**
 
