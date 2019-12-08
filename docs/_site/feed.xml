@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Problem Solving 101</title>
+        <description>
+          
+          The cons of not following a step by step approach and taking on everything all at once! Address to a previous question In one of my previous blogs, particularly this one, I referred to a question that I did not understand what exactly was JDERobot? Well, José Sir explained to...
+        </description>
+        <pubDate>Sun, 08 Dec 2019 02:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2019-12-08-problem-solving-101/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019-12-08-problem-solving-101/</guid>
+      </item>
+    
+      <item>
         <title>OS Upgrade</title>
         <description>
           

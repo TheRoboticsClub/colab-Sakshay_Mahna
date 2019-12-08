@@ -48,3 +48,7 @@ A simple installation of ROS Melodic, and then `sudo apt install jderobot`, we h
 ### Next Week
 
 Running the previously mentioned python file doesn't work. The interface mentioned in the website problem is quite different. So, maybe I was all wrong while finding the problem, or have to do some tweaks again, but that's all for next week! 
+
+### References
+
+[Package Manger](https://wiki.debian.org/DebianPackageManagement)
