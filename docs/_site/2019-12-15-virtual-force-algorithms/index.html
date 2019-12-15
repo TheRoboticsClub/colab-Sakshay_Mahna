@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Virtual Force Algorithms</title>
+
+  <meta name="author" content="Sakshay Mahna" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Progress Blog - -- JDE Robotics" href="/colab-Sakshay_Mahna/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Virtual Force Algorithms" />
+  
+
+   
+  <meta property="og:description" content="Local Navigation is an important subproblem in the field of Navigation in Robotics. It allows for the robot to break a global path into smaller parts which are effective to navigate through. This article discusses the implementation details of one such algorithm called the Virtual Force Field Algorithm. Self Driving...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2019-12-15-virtual-force-algorithms/" />
+  <link rel="canonical" href="http://localhost:4000/2019-12-15-virtual-force-algorithms/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/logo.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Virtual Force Algorithms" />
+  
+
+  
+  <meta name="twitter:description" content="Local Navigation is an important subproblem in the field of Navigation in Robotics. It allows for the robot to break a global path into smaller parts which are effective to navigate through. This article discusses the implementation details of one such algorithm called the Virtual Force Field Algorithm. Self Driving...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/logo.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Progress Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/colab-Sakshay_Mahna/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000">
+	      <img class="avatar-img" src="/colab-Sakshay_Mahna/img/logo.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Virtual Force Algorithms</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on December 15, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <p>Local Navigation is an important subproblem in the field of Navigation in Robotics. It allows for the robot to break a global path into smaller parts which are effective to navigate through. This article discusses the <strong>implementation details</strong> of one such algorithm called the <strong>Virtual Force Field Algorithm</strong>. Self Driving Cars make use of this algorithm to avoid obstacles</p>
+
+<p><img src="./../assets/vectors.png" alt="Vectors and Engineering" /></p>
+
+<p><em>Vectors are an important mathematical structure, which are the fundamental block of the Virtual Force Field Algorithm.</em></p>
+
+<h3 id="virtual-force-field-algorithm">Virtual Force Field Algorithm</h3>
+<p>The task of Navigation in Robotics is to take a robot from a point A to a point B, without colliding with any obstacles on the path. The first task of Navigation involves working out an effective path (an optimal path, in terms of distance, time or any other parameter), which is called the <strong>Global Navigation</strong>. Once, a global path is decided, it is broken down into smaller sets of waypoints, which the robot may navigate through to reach its end goal. This navigation through waypoints is called the <strong>Local Navigation</strong>. VFF is an effective algorithm in order to carry out the task of Local Navigation.</p>
+
+<p>A robot equipped with a LIDAR Sensor(or any similar Range Based Sensor) is capable of automatic navigation using the VFF Algorithm. The sensor provides the robot with an estimate of the surroundings in order to navigate freely in its enviorment, while avoiding the obstacles that may appear in its path.</p>
+
+<p>The VFF Algorithm works as follows:</p>
+
+<ul>
+  <li>Assign an <strong>attractive vector</strong>(going outwards from the robot) pointing from the robot towards the next waypoint</li>
+  <li>Assign a <strong>repulsive vector</strong>(going inwards into the robot) pointing from the obstacle towards the robot</li>
+  <li>Add the 2 vectors to obtain the required <strong>direction of motion</strong>.</li>
+  <li>Follow the direction of motion</li>
+</ul>
+
+<p><img src="./../assets/vff.png" alt="Virtual Force Field Algorithm" /></p>
+
+<p><em>Virtual Force Field Algorithm</em></p>
+
+<h3 id="drawback-of-the-algorithm">Drawback of the Algorithm</h3>
+<p>This is an extremely basic algorithm, easy in theory as well as in application. But, it suffers from some drawbacks, which are:</p>
+
+<ul>
+  <li>The robot is not able to enter narrow corridors</li>
+  <li>Even if it enters one, the robot experiences oscillations, which; if are unstable would cause collisions</li>
+</ul>
+
+<p><img src="./../assets/drawbacks.png" alt="Oscillations" /></p>
+
+<p><img src="./../assets/oscillations.gif" alt="Oscillations" /></p>
+
+<p><em>Oscillation is one of the drawback</em></p>
+
+<p>The second drawback is a little <strong>easier to deal with, if the robot has to travel through narrow passages only</strong>, which is discussed in this article.</p>
+
+<h3 id="implementation">Implementation</h3>
+<p>As said, the implementation is quite easy and can be dealt with, one step at a time. The following implementation is on the <a href="https://jderobot.github.io/RoboticsAcademy/portfolio/obstacle_avoidance/">obstacle_avoidance</a> exercise of JdeRobot Robotics Academy.</p>
+
+<h4 id="target-vector">Target Vector</h4>
+<p>Obtain the target vector by subtracting the current location of the robot from the current location of the next waypoint.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#k_target is a proportionality constant</span>
+<span class="n">target_vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">k_target</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targetx</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">posx</span><span class="p">),</span> <span class="n">k_target</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targety</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">posy</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<h4 id="obstacle-vector">Obstacle Vector</h4>
+<p>Obtain the obstacle vector by adding all the repulsive vectors that go from obstacle towards the robot.</p>
+
+<p>In terms of implementation, we would add the <em>inverse</em> of 180 sensor readings. The <em>inverse</em> step implies; smaller the magnitude of reading, closer it is to the robot and hence, more magnitude required for the repulsion vector.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#k_obstacle is a propoortionality constant</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">laser</span><span class="o">.</span><span class="n">getLaserData</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+	<span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k_obstacle</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span>  <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>		<span class="c">#Cosine of Angle to take direction along X axis</span>
+	<span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k_obstacle</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span>   <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>		<span class="c">#Sine of Angle to take direction along Y axis</span>
+		
+	<span class="n">angle</span> <span class="o">-=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h4 id="direction-vector">Direction Vector</h4>
+<p>Obtain the direction vector by adding the obstacle vector and the target vector.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#k_car is a proportionality constant</span>
+<span class="n">car_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">k_car</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">car_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">k_car</span> <span class="o">*</span> <span class="p">(</span><span class="n">target_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="narrow-corridors">Narrow Corridors</h3>
+<p>The implementation given above is based on a robot that has a lot of free space around itself. This implementation cannot be applied directly to the exercise. The exercise requires us to follow a narrow path, which causes unstability in the motion of the car. There is a little trick to remedy this. If we have a <strong>monodirectional robot</strong>, that is, a robot following a single direction, like the one in the exercise, we can <strong>omit the component</strong> of obstacle vector parallel to the direction in which our robot needs to head.</p>
+
+<p><img src="./../assets/obstacle_vector.png" alt="Narrow Corridors" /></p>
+
+<p><em>A resultant obstacle vector, even though, there is no obstacle in front of the robot</em></p>
+
+<p>In other words, only the left and right directions are responsible for our obstacle avoidance mechanism. We can move the robot forward with a constant non zero(obviously) velocity and steer the robot left or right, by considering the obstacle_vector. Hence, the code becomes:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="o">.</span><span class="n">sendV</span><span class="p">(</span><span class="mf">3.5</span><span class="p">)</span>		<span class="c">#Send velocity to robot</span>
+<span class="c">#Add PID to angle actual - where it should be headed times a constant</span>
+<span class="n">k_angle</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.3</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">motors</span><span class="o">.</span><span class="n">sendW</span><span class="p">(</span><span class="n">k_angle</span> <span class="o">*</span> <span class="p">(</span><span class="n">car_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>	<span class="c">#Send rotation to the robot</span>
+</code></pre></div></div>
+
+<p>One more modification we can make is to apply a non linear value to our obstacle vector, hence avoiding large unstable values.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">):</span>
+	<span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">obstacle_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="an-improvement">An improvement</h3>
+<p>Another concrete solution to this problem of Narrow Corridors was solved by J. Borenstein and Y. Koren by developing the Virtual Force Histogram Algorithm. Although they were the ones who developed VFF as well. VFH uses a <strong>histogram</strong>, to store the sensor readings. The values are then smoothened by applying a threshold. Then, the direction corresponding to a valley in the histogram is taken to be followed. Hence, this method improves over the narrow corridor problem. Detailed description about the VFH algorithm can be the topic of discussion of some other blog post.</p>
+
+<p><img src="./../assets/vfh.gif" alt="Virutal Force Histogram" /></p>
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Virtual+Force+Algorithms+http://localhost:4000/2019-12-15-virtual-force-algorithms/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2019-12-15-virtual-force-algorithms/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2019-12-15-virtual-force-algorithms/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/colab-Sakshay_Mahna/2019-12-08-problem-solving-101/" data-toggle="tooltip" data-placement="top" title="Problem Solving 101">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+          
+        <div class="staticman-comments">
+          
+
+        </div>
+        <div class="justcomments-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/colab-Sakshay_Mahna/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:sakshum19@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/SakshayMahna" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/MahnaSakshay" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/sakshaymahna" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Sakshay Mahna
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/colab-Sakshay_Mahna/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/main.js"></script>
+    
+  
+
+
+  
+  </body>
+</html>

@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Virtual Force Algorithms</title>
+        <description>
+          
+          Local Navigation is an important subproblem in the field of Navigation in Robotics. It allows for the robot to break a global path into smaller parts which are effective to navigate through. This article discusses the implementation details of one such algorithm called the Virtual Force Field Algorithm. Self Driving...
+        </description>
+        <pubDate>Sun, 15 Dec 2019 09:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2019-12-15-virtual-force-algorithms/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019-12-15-virtual-force-algorithms/</guid>
+      </item>
+    
+      <item>
         <title>Problem Solving 101</title>
         <description>
           
