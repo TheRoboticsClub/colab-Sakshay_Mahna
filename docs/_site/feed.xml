@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Coverage Algorithms - Part 1</title>
+        <description>
+          
+          Coverage Path Planning is an important area of research in Path Planning for robotics, which involves finding a path that passes through every reachable position in it’s environment. This post discusses a very basic Coverage Algorithm called Random Exploration, it’s implementations and some observations regarding it. Analyzing Coverage Algorithms Classification...
+        </description>
+        <pubDate>Sun, 22 Dec 2019 06:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2019-12-22-coverage-algorithms-part-1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019-12-22-coverage-algorithms-part-1/</guid>
+      </item>
+    
+      <item>
         <title>Virtual Force Algorithms</title>
         <description>
           
