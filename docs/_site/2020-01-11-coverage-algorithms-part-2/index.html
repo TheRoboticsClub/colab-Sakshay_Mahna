@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Coverage Algorithms - Part 2</title>
+
+  <meta name="author" content="Sakshay Mahna" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Progress Blog - -- JDE Robotics" href="/colab-Sakshay_Mahna/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Coverage Algorithms - Part 2" />
+  
+
+   
+  <meta property="og:description" content="Second Part of Coverage Algortihms. This post discusses how to generate and implement a general coverage algorithm using self localization. Make sure to visit the first part to understand the basics of coverage algorithms, before reading on! Roomba on Job A Commercial Coverage Algorithm The Roomba 980, one of the...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2020-01-11-coverage-algorithms-part-2/" />
+  <link rel="canonical" href="http://localhost:4000/2020-01-11-coverage-algorithms-part-2/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/logo.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Coverage Algorithms - Part 2" />
+  
+
+  
+  <meta name="twitter:description" content="Second Part of Coverage Algortihms. This post discusses how to generate and implement a general coverage algorithm using self localization. Make sure to visit the first part to understand the basics of coverage algorithms, before reading on! Roomba on Job A Commercial Coverage Algorithm The Roomba 980, one of the...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/logo.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Progress Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/colab-Sakshay_Mahna/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000">
+	      <img class="avatar-img" src="/colab-Sakshay_Mahna/img/logo.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Coverage Algorithms - Part 2</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 11, 2020</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <p>Second Part of Coverage Algortihms. This post discusses how to generate and implement a general coverage algorithm using self localization. Make sure to visit the <a href="./2019-12-22">first part</a> to understand the basics of coverage algorithms, before reading on!</p>
+
+<p><img src="./../assets/roomba.gif" alt="Roomba GIF" /></p>
+
+<p><em>Roomba on Job</em></p>
+
+<h3 id="a-commercial-coverage-algorithm">A Commercial Coverage Algorithm</h3>
+
+<p>The Roomba 980, one of the most advanced vacuum cleaner robot is a good way to understand what a good coverage algorithm should be composed of! By using a camera, the robot captures the images of a room, and gradually builds the map of it’s surroundings and determines it’s location, a technique called SLAM(Simulataneous Localization and Mapping). Being able to implement SLAM in such a small system is a remarkable work done by iRobot. In order to gain better accuracy, the Robot combines the data from proximity sensors with the camera, a technique which is called sensor fusion.</p>
+
+<p><img src="./../assets/SLAM.gif" alt="SLAM" /></p>
+
+<p><em>Simultaneous Localization and Mapping</em></p>
+
+<p>As can be seen, <strong>Localization</strong> is an essential competency required by an autonomous robot, as using it’s own location, the robot can make decisions about future actions. Using the power of localization in our code enables us to accurately determine the robot’s return path and it’s next step.</p>
+
+<p>As discussed in the previous post, a coverage algorithm is composed of 3 main components:</p>
+<ul>
+  <li>Decomposition of Region</li>
+  <li>Sweep Algorithm</li>
+  <li>Backtracking</li>
+</ul>
+
+<p>Let’s look at them one by one:</p>
+
+<h3 id="decomposition-of-region">Decomposition of Region</h3>
+
+<p>Decomposition of Region involves breaking down the complete map into smaller parts. Any efficient decomposition would work here. Trapezoidal Decomposition, Rectangular Decomposition, Complementary Region Decomposition to name a few. A very simple decomposition algorithm would be ‘Be on the Lookout’ Algorithm. Actually, there is no formal name of the algorithm, I just gave it on the basis of how it works!</p>
+
+<p><img src="./../assets/trap_decomp.png" alt="Decomposition" /></p>
+
+<p><em>Trapezoidal Cellular Decomposition</em></p>
+
+<p>Literally, we have to be on the lookout of a free cell, while covering a region. Once, our robot signals the completion of a segment, the robot can then move onto the next segment, which it keeps storing on the fly. A simple implementation would be:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Returns a number based on whether the cell is free, has an obstacle, or is already covered</span>
+<span class="k">def</span> <span class="nf">checkCell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span> 
+    <span class="n">obstacle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">virtualObst</span> <span class="o">=</span> <span class="mi">0</span>	<span class="c">#already covered path</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">cell</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">cell</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+      	<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapE</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      		<span class="c">#obstacle</span>
+       		<span class="n">obstacle</span> <span class="o">=</span> <span class="mi">1</span>
+       	<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapE</span><span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      		<span class="c">#already covered path</span>
+      		<span class="n">virtualObst</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="n">obstacle</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+       	<span class="n">c</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">virtualObst</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+       	<span class="n">c</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+       	<span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">return</span> <span class="n">c</span>
+
+<span class="c">#Checks the neighboring cells of the current cell</span>
+<span class="k">def</span> <span class="nf">checkNeigh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">):</span>
+   <span class="n">north</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+   <span class="n">northCell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkCell</span><span class="p">(</span><span class="n">north</span><span class="p">)</span> 
+        
+   <span class="n">east</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+   <span class="n">eastCell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkCell</span><span class="p">(</span><span class="n">east</span><span class="p">)</span> 
+
+   <span class="n">west</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+   <span class="n">westCell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkCell</span><span class="p">(</span><span class="n">west</span><span class="p">)</span> 
+
+   <span class="n">south</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+   <span class="n">southCell</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkCell</span><span class="p">(</span><span class="n">south</span><span class="p">)</span> 
+        
+   <span class="n">cells</span> <span class="o">=</span> <span class="p">[</span><span class="n">northCell</span><span class="p">,</span> <span class="n">eastCell</span><span class="p">,</span> <span class="n">westCell</span><span class="p">,</span> <span class="n">southCell</span><span class="p">]</span> 
+   <span class="k">return</span> <span class="n">cells</span>
+
+        
+<span class="c">#Checks whether the neighbors are worth saving to our list       </span>
+<span class="k">def</span> <span class="nf">isReturnPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cells</span><span class="p">):</span>
+   <span class="n">nCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+   <span class="n">eCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+   <span class="n">wCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+   <span class="n">sCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+   <span class="k">if</span> <span class="n">nCell</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">savePoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCell</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">eCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">savePoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCell</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">wCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">savePoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCell</span><span class="p">)</span>
+   <span class="k">if</span> <span class="n">sCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+       <span class="bp">self</span><span class="o">.</span><span class="n">savePoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCell</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h3 id="sweep-algorithm">Sweep Algorithm</h3>
+
+<p>The Sweep Algorithm determines the way the robot would cover a segment of the map. Random Motion, Spiral Motion, Boustrophedon Motion are some of the ways by which we can cover a segment. An implementation of zig zag motion would be:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">zigzag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cells</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">):</span>
+    <span class="n">nCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">eCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">wCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">sCell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+	<span class="n">north</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">east</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">west</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+	<span class="n">south</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    
+	<span class="c">#If not going south</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">goSouth</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+		<span class="c">#North Cell is empty</span>
+      	<span class="k">if</span> <span class="n">nCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+       		<span class="bp">self</span><span class="o">.</span><span class="n">nextCell</span> <span class="o">=</span> <span class="n">north</span>
+
+		<span class="c">#North Cell not empty</span>
+       	<span class="k">else</span><span class="p">:</span>
+			<span class="c">#South Cell empty</span>
+       		<span class="k">if</span> <span class="n">sCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+       			<span class="bp">self</span><span class="o">.</span><span class="n">nextCell</span> <span class="o">=</span> <span class="n">south</span>
+       			<span class="bp">self</span><span class="o">.</span><span class="n">goSouth</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="c">#East Cell empty </span>
+       		<span class="k">elif</span> <span class="n">eCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+       			<span class="bp">self</span><span class="o">.</span><span class="n">nextCell</span> <span class="o">=</span> <span class="n">east</span>
+       			<span class="bp">self</span><span class="o">.</span><span class="n">goSouth</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="c">#West Cell empty </span>
+       		<span class="k">elif</span> <span class="n">wCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+       			<span class="bp">self</span><span class="o">.</span><span class="n">nextCell</span> <span class="o">=</span> <span class="n">west</span>
+       			<span class="bp">self</span><span class="o">.</span><span class="n">goSouth</span> <span class="o">=</span> <span class="bp">True</span>
+	
+	<span class="c">#If going south</span>
+    <span class="k">else</span><span class="p">:</span>
+		<span class="c">#South Cell empty</span>
+       	<span class="k">if</span> <span class="n">sCell</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+       		<span class="bp">self</span><span class="o">.</span><span class="n">nextCell</span> <span class="o">=</span> <span class="n">south</span>
+        <span class="c">#South Cell not empty</span>
+       	<span class="k">else</span><span class="p">:</span>
+       		<span class="bp">self</span><span class="o">.</span><span class="n">goSouth</span> <span class="o">=</span> <span class="bp">False</span>
+</code></pre></div></div>
+
+<h3 id="backtracking">Backtracking</h3>
+<p>Backtracking involves the plan for moving from one region to another. It is an essential part to our coverage algorithm. A good backtracking algorithm reduces the time of travel between two subregions. Some examples would be Naive Backtracking, A* or Visibility Algorithm. An implementation of A* algorithm would be:</p>
+
+<p><img src="./../assets/astar.gif" alt="AStar" /></p>
+
+<p><em>A Star Path Finding Algorithm</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Cell is the current point, and returnPoint is the destination</span>
+<span class="k">def</span> <span class="nf">astar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">returnPoint</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">):</span>
+
+    <span class="c"># Initialize both open and closed list</span>
+    <span class="n">open_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">closed_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c"># Add the start node</span>
+    <span class="n">open_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+
+    <span class="c"># Loop until you find the end</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">open_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="c"># Get the node with smallest f from open_list</span>
+        <span class="n">current_node</span> <span class="o">=</span> <span class="n">open_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">current_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">open_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">f</span> <span class="o">&lt;</span> <span class="n">current_node</span><span class="o">.</span><span class="n">f</span><span class="p">:</span>
+                <span class="n">current_node</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="n">current_index</span> <span class="o">=</span> <span class="n">index</span>
+
+        <span class="c"># Pop it off open list, add to closed list</span>
+        <span class="n">open_list</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">current_index</span><span class="p">)</span>
+        <span class="n">closed_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_node</span><span class="p">)</span>
+
+        <span class="c"># If the goal is found</span>
+        <span class="k">if</span> <span class="n">current_node</span> <span class="o">==</span> <span class="n">returnPoint</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current_node</span>
+            <span class="k">while</span> <span class="n">current</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">return</span> <span class="n">path</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># Return reversed path</span>
+
+        <span class="c"># Generate children</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">new_position</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span> <span class="c"># Neighboring squares</span>
+
+            <span class="c"># Make sure the neighbor is free</span>
+            <span class="k">if</span> <span class="nb">map</span><span class="p">[</span><span class="n">new_position</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c"># Append</span>
+            <span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_position</span><span class="p">)</span>
+
+        <span class="c"># Loop through children</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+
+            <span class="c"># Child is on the closed list</span>
+            <span class="k">for</span> <span class="n">closed_child</span> <span class="ow">in</span> <span class="n">closed_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child</span> <span class="o">==</span> <span class="n">closed_child</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+            <span class="c"># Create the f, g, and h values</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">g</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="p">((</span><span class="n">child</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">end_node</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">((</span><span class="n">child</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">end_node</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">g</span> <span class="o">+</span> <span class="n">child</span><span class="o">.</span><span class="n">h</span>
+
+            <span class="c"># Child is already in the open list</span>
+            <span class="k">for</span> <span class="n">open_node</span> <span class="ow">in</span> <span class="n">open_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child</span> <span class="o">==</span> <span class="n">open_node</span> <span class="ow">and</span> <span class="n">child</span><span class="o">.</span><span class="n">g</span> <span class="o">&gt;</span> <span class="n">open_node</span><span class="o">.</span><span class="n">g</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+            <span class="c"># Add the child to the open list</span>
+            <span class="n">open_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><em>Please find the code <a href="https://gist.github.com/Nicholas-Swift/003e1932ef2804bebef2710527008f44#file-astar-py">here</a></em></p>
+
+<p>Hence, by reconfiguring and adjusting the three parts of our algorithm, we can design any complex or simple coverage algorithm.</p>
+
+<h3 id="references">References</h3>
+
+<p><a href="https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2">A* Algorithm</a></p>
+
+<p><a href="https://www.technologyreview.com/s/541326/the-roomba-now-sees-and-maps-a-home/">Roomba SLAM</a></p>
+
+<p><a href="https://drive.google.com/open?id=14kBEQWBgxX9gxg9fjJbRX4jHNCXjAYiT">Sweep and Decomposition Algorithm</a></p>
+
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Coverage+Algorithms+-+Part+2+http://localhost:4000/2020-01-11-coverage-algorithms-part-2/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2020-01-11-coverage-algorithms-part-2/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2020-01-11-coverage-algorithms-part-2/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/colab-Sakshay_Mahna/2020-01-04-talking-with-robots/" data-toggle="tooltip" data-placement="top" title="Talking with Robots">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+          
+        <div class="staticman-comments">
+          
+
+        </div>
+        <div class="justcomments-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/colab-Sakshay_Mahna/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:sakshum19@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/SakshayMahna" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/MahnaSakshay" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/sakshaymahna" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Sakshay Mahna
+      &nbsp;&bull;&nbsp;
+      2020
+
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/colab-Sakshay_Mahna/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/main.js"></script>
+    
+  
+
+
+  
+  </body>
+</html>
