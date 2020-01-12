@@ -29,13 +29,13 @@ Let's look at them one by one:
 
 ### Decomposition of Region
 
-Decomposition of Region involves breaking down the complete map into smaller parts. Any efficient decomposition would work here. Trapezoidal Decomposition, Rectangular Decomposition, Complementary Region Decomposition to name a few. A very simple decomposition algorithm would be 'Be on the Lookout' Algorithm. Actually, there is no formal name of the algorithm, I just gave it on the basis of how it works!
+Decomposition of Region involves breaking down the complete map into smaller parts. Any efficient decomposition would work here. Trapezoidal Decomposition, Rectangular Decomposition, Complementary Region Decomposition to name a few. A very simple decomposition algorithm would be 'Boustrophedon Decomposition' Algorithm.
 
 ![Decomposition](./../assets/trap_decomp.png)
 
 _Trapezoidal Cellular Decomposition_
 
-Literally, we have to be on the lookout of a free cell, while covering a region. Once, our robot signals the completion of a segment, the robot can then move onto the next segment, which it keeps storing on the fly. A simple implementation would be:
+The algorithm is simple in the sense that it involves no preprocessing task, and can be operated online. Implementation wise, while the robot is moving in the environment under the Sweep Algorithm, the robot needs to save all the vacant spaces it encounters surrounding it. Once, the robot reaches a point where it cannot move any further(considering that the robot cannot cross the obstacle, and cannot go to already visited spaces), the robot may enter the next segment to begin coverage.
 
 ```python
 #Returns a number based on whether the cell is free, has an obstacle, or is already covered
