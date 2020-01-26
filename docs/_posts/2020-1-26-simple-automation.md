@@ -113,5 +113,5 @@ Regular users of the Web Service would have noticed that upon pressing ENTER key
 
 *How to stop spamming!*
 
-So, this is it! That's how you can spam people, with some simple code #NotoriousProgramming. As can be seen, making Selenium based automation scripts are easy to do if you know what you are doing. There are a lot of possibilties with these scripts. So, go out there and explore those!
+So, this is it! That's how you can spam people, with some simple code **#NotoriousProgramming**. As can be seen, making Selenium based automation scripts are easy to do if you know what you are doing. There are a lot of possibilties with these scripts. So, go out there and explore those!
 
