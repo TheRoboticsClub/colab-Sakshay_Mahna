@@ -23,7 +23,7 @@ Henchmen is a line follower robot competition, where we have to design an autono
 ![Henchmen](../assets/henchmen2.gif)
 
 ### RoboSoccer
-Playing the old soccer game, with autonomous or manually controlled robots encompasses the RoboSoccer competition. Control, sturdy body and proper connections and part selection are what makes the best robot for this event!
+Playing the old soccer game, with autonomous or manually controlled robots is the RoboSoccer competition. Control, Sturdy Body and Proper Connections and Part Selection are what makes the best robot for this event!
 
 ![RoboSoccer](../assets/robosoccer1.gif)
 
