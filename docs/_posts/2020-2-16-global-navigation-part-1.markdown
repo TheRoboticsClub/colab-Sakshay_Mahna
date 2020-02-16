@@ -3,8 +3,6 @@ layout: post
 title:  "Global Navigation - Part 1"
 date:   2020-2-16 23:00:00 +0530
 categories: global-navigation
-
-youtubeId: oxK4ykVh1EE
 ---
 Mobile robot navigation is an essential issue in the field of robotics. They are known for their intelligence tendencies. They also cover wide range of applications, such as in transportation, industry, and rescue robots. This post talks about implementing Euclidean Distance Algorithm for Global Navigation Exercise on JdeRobot.
 
@@ -31,7 +29,7 @@ It's always easy and time saving when we can use prebuilt libraries and software
 
 So maybe ROS can work on Python3. Well, this would have been the case if this video came a little earlier, or ROS Noetic was released earlier!
 
-{% include youtubePlayer.html id=page.youtubeId %}
+[![Python3 in ROS](https://img.youtube.com/vi/oxK4ykVh1EE/0.jpg)](https://www.youtube.com/watch?v=oxK4ykVh1EE)
 
 *The Construct teaches people to use ROS*
 
@@ -55,7 +53,7 @@ This algorithm very efficiently generates a path starting from target to source,
 
 ![Local Minima](./../assets/local_minima.jpeg)
 
-*The algorithm will not procede further as there are no relevant cells left*
+*The Local Minima Problem*
 
 ### Which one to use
 So, Wave Front Algorithm is the one that should be implemented. Although, it takes time to generate the path, still it serves our purpose(A lot of time doesn't mean hours, only 2-3 minutes in our case). Coming on to the implementation part, it will be discussed in the next part of the series, until then,
