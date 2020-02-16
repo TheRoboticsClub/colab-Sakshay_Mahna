@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Global Navigation - Part 1"
-date:   2020-2-16 23:00:00 +0530
+date:   2020-2-16 22:00:00 +0530
 categories: global-navigation
 ---
 Mobile robot navigation is an essential issue in the field of robotics. They are known for their intelligence tendencies. They also cover wide range of applications, such as in transportation, industry, and rescue robots. This post talks about implementing Euclidean Distance Algorithm for Global Navigation Exercise on JdeRobot.
