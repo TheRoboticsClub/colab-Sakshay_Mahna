@@ -59,7 +59,7 @@ This algorithm very efficiently generates a path starting from target to source,
 So, Wave Front Algorithm is the one that should be implemented. Although, it takes time to generate the path, still it serves our purpose(A lot of time doesn't mean hours, only 2-3 minutes in our case). Coming on to the implementation part, it will be discussed in the next part of the series, until then,
 
 > Enjoy Machine Learning
-> - Kirill Eremenko
+> -Kirill Eremenko
 
 ![Enjoy Machine Learning](./../assets/kirill_eremenko.png)
 
