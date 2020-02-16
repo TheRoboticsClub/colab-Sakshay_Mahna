@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Global Navigation - Part 1"
-date:   2020-2-10 23:00:00 +0530
+date:   2020-2-16 23:00:00 +0530
 categories: global-navigation
 
 youtubeId: oxK4ykVh1EE
