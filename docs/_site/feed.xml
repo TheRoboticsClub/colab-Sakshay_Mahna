@@ -7,6 +7,50 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Global Navigation - Part 2</title>
+        <description>
+          
+          In the previous post, we talked about the various Global Navigation Algorithms that could be used to solve the JdeRobot exercise on Global Navigation. This post focuses on the implementation part of the algorithms, that were discussed. Let’s start with the general Breadth First Search algorithm. Once we know about...
+        </description>
+        <pubDate>Sun, 23 Feb 2020 04:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-02-23-global-navigation-part-2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-02-23-global-navigation-part-2/</guid>
+      </item>
+    
+      <item>
+        <title>Global Navigation - Part 1</title>
+        <description>
+          
+          Mobile robot navigation is an essential issue in the field of robotics. They are known for their intelligence tendencies. They also cover wide range of applications, such as in transportation, industry, and rescue robots. This post talks about the pros and cons of some algorithms for Global Navigation Exercise on...
+        </description>
+        <pubDate>Sun, 16 Feb 2020 17:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-02-16-global-navigation-part-1/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-02-16-global-navigation-part-1/</guid>
+      </item>
+    
+      <item>
+        <title>Competitive Robotics</title>
+        <description>
+          
+          This post talks about Competitive Robotics, and the various competitions held around robotics. Most of the information in this post is an accumulation of all the ideas I had from my college technical fest, Advitiya held in the span of previous 3 days! Competitive Robotics Competition according to Wikipedia refers...
+        </description>
+        <pubDate>Mon, 10 Feb 2020 14:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-02-10-competitive-robotics/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-02-10-competitive-robotics/</guid>
+      </item>
+    
+      <item>
+        <title>Simple Automation</title>
+        <description>
+          
+          Automation is the technology by which a process can be carried out with minimal human assistance. Automation can be hardware or software based. In this post we are going to talk about a software based web automation process using the python library Selenium. Far off in the future, maybe? This...
+        </description>
+        <pubDate>Sun, 26 Jan 2020 04:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-01-26-simple-automation/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-01-26-simple-automation/</guid>
+      </item>
+    
+      <item>
         <title>Coverage Algorithms - Part 2</title>
         <description>
           

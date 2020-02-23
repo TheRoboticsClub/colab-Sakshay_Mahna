@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Global Navigation - Part 2</title>
+
+  <meta name="author" content="Sakshay Mahna" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Progress Blog - -- JDE Robotics" href="/colab-Sakshay_Mahna/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Global Navigation - Part 2" />
+  
+
+   
+  <meta property="og:description" content="In the previous post, we talked about the various Global Navigation Algorithms that could be used to solve the JdeRobot exercise on Global Navigation. This post focuses on the implementation part of the algorithms, that were discussed. Let’s start with the general Breadth First Search algorithm. Once we know about...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2020-02-23-global-navigation-part-2/" />
+  <link rel="canonical" href="http://localhost:4000/2020-02-23-global-navigation-part-2/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/logo.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Global Navigation - Part 2" />
+  
+
+  
+  <meta name="twitter:description" content="In the previous post, we talked about the various Global Navigation Algorithms that could be used to solve the JdeRobot exercise on Global Navigation. This post focuses on the implementation part of the algorithms, that were discussed. Let’s start with the general Breadth First Search algorithm. Once we know about...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/logo.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Progress Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/colab-Sakshay_Mahna/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000">
+	      <img class="avatar-img" src="/colab-Sakshay_Mahna/img/logo.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Global Navigation - Part 2</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 23, 2020</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <p>In the previous post, we talked about the various Global Navigation Algorithms that could be used to solve the JdeRobot exercise on Global Navigation. This post focuses on the implementation part of the algorithms, that were discussed.</p>
+
+<p>Let’s start with the general <strong>Breadth First Search</strong> algorithm. Once we know about BFS, then we can apply various comparision algorithms on it, and evaluate their performance!</p>
+
+<h2 id="breadth-first-search">Breadth First Search</h2>
+<p><a href="https://en.wikipedia.org/wiki/Breadth-first_search">Breadth First Search</a> is a traversal algorithm, used for scanning a <a href="https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/">graph</a>. It starts at any arbitrary node of the graph, and explores all the nearest neighbors at the present depth prior to moving onto the next depth level. Applying it on a grid, is quite similar. Considering the grid as a graph, the nodes of the graph correspond to the cells and the neighboring cells(nodes) are connected by edges. In this way the BFS algorithm, could be visualized as a <strong>Wave Front</strong> or a <strong>Fire</strong> propagating from a point, <em>outwards</em> in case of a grid.</p>
+
+<p><img src="https://adrianmejia.com/images/graph-parts.jpg" alt="Graph" /></p>
+
+<p><em>Enter the data structure: Graph</em></p>
+
+<p>Many problems can be solved using this algorithm, finding <a href="https://en.wikipedia.org/wiki/Component_(graph_theory)">connected components</a>, shortest path out of a maze, testing <a href="https://en.wikipedia.org/wiki/Bipartite_graph">bipartiteness</a> of a graph, to name a few. In our case we use it to get the next cell, which is to be processed. Here is the implementation of BFS on grid!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_path</span><span class="p">():</span>
+	<span class="c">#8 nearest neighbors</span>
+	<span class="n">neighbors</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+	<span class="c">#Get the Binary Map Image	</span>
+	<span class="n">mapIm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getMap</span><span class="p">()</span>
+	<span class="c">#Get the destination</span>
+        <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getDestiny</span><span class="p">()</span>
+	<span class="c">#Get the current position</span>
+        <span class="n">gridPos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getPose</span><span class="p">()</span>
+	<span class="c">#Queue	</span>
+	<span class="n">grids</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="c">#visited array</span>
+	<span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="c">#0 cost for destination node and it's neighbors</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+		<span class="n">neighbor</span> <span class="o">=</span> <span class="p">[</span><span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">dest</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dest</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+		<span class="n">grids</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+	
+		
+	<span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">setVal</span><span class="p">(</span><span class="n">dest</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dest</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+	<span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">dest</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dest</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+	
+	<span class="k">while</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grids</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+		<span class="c">#Check and mark as visited</span>
+		<span class="k">if</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">):</span>
+			<span class="k">continue</span>
+		<span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+		
+		<span class="c">#Check for compeletion</span>
+		<span class="c">#c[1] is for gridX and c[2] for gridY</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">gridPos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">gridPos</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+			<span class="n">point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">setVal</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">point</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+			<span class="k">break</span>		
+		
+		<span class="c">#point is the value of grid point whose neighbors are to be checked</span>
+		<span class="n">point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+		<span class="n">minimum</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span>
+		<span class="n">which</span> <span class="o">=</span> <span class="mi">0</span>
+		
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+			<span class="c">#the neighbor</span>
+			<span class="n">neighbor</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+			<span class="c">#Check neighbor for out of bounds</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">400</span> <span class="ow">or</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">):</span>
+				<span class="k">continue</span>
+			
+			<span class="c">#value is used to determine if it's an obstacle</span>
+			<span class="n">value</span> <span class="o">=</span> <span class="n">mapIm</span><span class="p">[</span><span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+			<span class="c">#point1 is the current value of the neighbor</span>
+			<span class="n">point1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			
+			<span class="c">#if value == 0, then it is an obstacle, continue</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="k">continue</span>
+			
+			<span class="c">#if not obstacle	</span>
+			<span class="c">#and push; if not visited</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">setVal</span><span class="p">(</span><span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">comparision_algorithm</span><span class="p">())</span>
+			
+			<span class="k">if</span><span class="p">(</span><span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">):</span>
+				<span class="n">grids</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">point1</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">neighbor</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+		
+</code></pre></div></div>
+
+<p>The algorithm, will get us the next cell based on our metric.</p>
+
+<p>Let’s discuss the metrics now!</p>
+
+<h2 id="euclidean-distance">Euclidean Distance</h2>
+<p>The euclidean distance metric is really simple to implement and understand. All we have to do is to get the coordinate based distance between two points.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">):</span>
+	<span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">point1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">point2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">point1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">point2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+	<span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>But, as discussed previously there is a drawback with this algorithm. The algorithm will fail at this location!</p>
+
+<p><img src="./../assets/city_gn.png" alt="The failure location" /></p>
+
+<p><em>The location marked in red fails the algorithm</em></p>
+
+<p>While getting the cell with lowest euclidean distance, the algorithm doesn’t want to <strong>risk</strong> taking a value little larger than required, to reach it’s goal. Therefore, the alogrithm gets stuck in a loop or terminates, when it can’t go any further!</p>
+
+<p>Going a little deeper and tweaking the details a little bit, we can get the algorithm to get out of the loop, but we won’t be able to navigate through it, see the illustration to clear the point!</p>
+
+<p><img src="./../assets/serious_problem.png" alt="Illustration" /></p>
+
+<p><em>The algorithm can never tell which point was called for in this region</em></p>
+
+<p>So this doesn’t seem to work, we have another plan as well!</p>
+
+<p><img src="https://pa1.narvii.com/6441/b77209e856e19da0c1bdfe783a812b6fa969a266_00.gif" alt="Another Plan" class="center-image" /></p>
+
+<p><em>We have one more algorithm</em></p>
+
+<h2 id="wave-front-algorithm">Wave Front Algorithm</h2>
+<p>Using this algorithm, we can implement a brute force breadth first search, that scans almost the complete grid and gets an answer(path) to our query. The metric used in this algorithm, is the value assigned to each cell in the grid. The minimum value is chosen and as the next cell. Simply put,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">value_metric</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">minimum</span><span class="p">,</span> <span class="n">lowest</span><span class="p">,</span> <span class="n">running</span><span class="p">):</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;=</span> <span class="n">minimum</span><span class="p">):</span>
+		<span class="n">lowest</span> <span class="o">=</span> <span class="p">[</span><span class="n">running</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">running</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+		<span class="n">minimum</span> <span class="o">=</span> <span class="n">value</span>
+
+	<span class="k">return</span> <span class="n">lowest</span>
+</code></pre></div></div>
+
+<p>This takes time, but does it’s job really well in our case. The above algorithm would be enough, if we want to traverse through an obstacle free grid. To deal with obstacles, we need to add certain definite values to the cells near obstacles, therby creating a <em>potential wall</em>, which is difficult to climb for the navigation algorithm.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Define the matrix that needs to be added</span>
+<span class="n">obs_weight</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">]]</span>
+        
+<span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">obs</span> <span class="ow">in</span> <span class="n">obstacle</span><span class="p">:</span>
+	<span class="c">#The cells within the given range are to be incremented</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+			<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">obs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">j</span><span class="p">]</span>
+			<span class="c">#Check for any out of bounds</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">400</span> <span class="ow">or</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">400</span><span class="p">):</span>
+				<span class="k">continue</span>
+			
+			<span class="c">#Should not be visited</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">):</span>
+				<span class="k">continue</span>
+			
+			<span class="c">#Should not be an obstacle already</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">isobstacle</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+				<span class="k">continue</span>
+			
+			<span class="n">point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">setVal</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">point</span><span class="o">+</span><span class="n">obs_weight</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
+			<span class="c">#We need to add the value only once, every obstacle</span>
+			<span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>			
+</code></pre></div></div>
+
+<p>Once, the path is generated, it is time to navigate through it!</p>
+
+<p><img src="https://i.imgflip.com/2a3cp4.gif" alt="Navigation and Path Planning" class="center-image" /></p>
+
+<p><em>Onto Navigation</em></p>
+
+<h2 id="navigation">Navigation</h2>
+<p>The navigation is quite simple, compared to the path generation. Apart from low level details, like setting the speed, checking if the obstacle reached, the task is relatively easier. We have to select the next 2 cells which we are to go through and take their interpolation considering them of equal weights. There are 2 points to take note of,</p>
+
+<ul>
+  <li>
+    <p><strong>Selection of next point</strong>: The selection of next point, should be done from a neighborhood of points, and not just the 8 neighbors. In other words, select a point from a larger radius of vicinity, otherwise our navigating algorithm, fails to get the next minimum point, and just passes through!</p>
+  </li>
+  <li>
+    <p><strong>Interpolation</strong>: The interpolation weights are adjustable. Even selecting 3 points works well!</p>
+  </li>
+</ul>
+
+<p>Once these <em>hyperparameters</em> are set, the rest is left to simulation, what suits our task best! Here is a brief code,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">getnexttarget</span><span class="p">():</span>
+	<span class="c">#Current Position</span>
+	<span class="n">gridPose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getPose</span><span class="p">()</span>
+	<span class="c">#Destination</span>
+	<span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getDestiny</span><span class="p">()</span>
+	
+	<span class="c">#First target</span>
+	<span class="n">targetImage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getnextcell</span><span class="p">(</span><span class="n">gridPose</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span>
+	<span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">gridToWorld</span><span class="p">(</span><span class="n">targetImage</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">targetImage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	
+	<span class="c">#Second target corresponding to our First target</span>
+	<span class="n">targetNextImage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getnextcell</span><span class="p">(</span><span class="n">targetImage</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span>
+	<span class="n">targetNext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">gridToWorld</span><span class="p">(</span><span class="n">targetNextImage</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">targetNextImage</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	
+	<span class="c">#Interpolation</span>
+	<span class="n">targetInterpolationx</span> <span class="o">=</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">targetNext</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+	<span class="n">targetInterpolationy</span> <span class="o">=</span> <span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">targetNext</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+	
+	<span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">worldToGrid</span><span class="p">(</span><span class="n">targetInterpolationx</span><span class="p">,</span> <span class="n">targetInterpolationy</span><span class="p">)</span>
+	<span class="c">#self.prev = self.target</span>
+	<span class="c">#self.prev = targetImage</span>
+	<span class="k">print</span> <span class="s">"</span><span class="se">\n\n</span><span class="s">TARGET INTERPOLATION: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">getnextcell</span><span class="p">():</span>
+	<span class="c">#Current cell</span>
+    	<span class="n">curr</span> <span class="o">=</span> <span class="p">[</span><span class="n">pose</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    	<span class="n">lowest</span> <span class="o">=</span> <span class="p">[</span><span class="n">pose</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+	<span class="c">#Minimum value</span>
+    	<span class="n">minimum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">pose</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pose</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    	<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curr</span><span class="p">)</span>
+
+	<span class="c">#A radius of 6</span>
+    	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    			<span class="n">running</span> <span class="o">=</span> <span class="p">[</span><span class="n">curr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">curr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">j</span><span class="p">]</span>
+			<span class="c">#Check for out of bounds</span>
+    			<span class="k">if</span><span class="p">(</span><span class="n">running</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">running</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">400</span> <span class="ow">or</span> <span class="n">running</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">running</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">400</span><span class="p">):</span>
+    				<span class="k">continue</span>
+    			
+    			<span class="k">if</span><span class="p">(</span><span class="n">running</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">):</span>
+    				<span class="k">continue</span>
+    			
+    			<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">getVal</span><span class="p">(</span><span class="n">running</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">running</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+			<span class="c">#If not obstacle</span>
+    			<span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+    				<span class="k">if</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">):</span>
+    					<span class="n">lowest</span> <span class="o">=</span> <span class="p">[</span><span class="n">running</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">running</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    					<span class="n">minimum</span> <span class="o">=</span> <span class="n">value</span>
+    					
+					
+	<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lowest</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">lowest</span>
+
+</code></pre></div></div>
+
+<p>One really interesting point to note above. I used <code class="highlighter-rouge">lowest = [pose[0], pose[1]]</code> instead of using <code class="highlighter-rouge">curr = lowest</code>. There is a very cool reason behind it! While copying values from a variable to another, python uses <em>reference</em> when copying the array variable. Hence the variable for an array actually represents the reference to the first element of the array and not it’s value. Therefore, in the future whenever we make a change to the array <code class="highlighter-rouge">lowest</code>, that same change will be reflected in the <code class="highlighter-rouge">curr</code> array, which we do not require! Hence, justifying the above code. Read more about this <a href="https://realpython.com/copying-python-objects/">here</a>.</p>
+
+<p>So, this it it! This is how you implement the Wave Front Algorithm to navigate through small mazes, that are computationally not that complex!</p>
+
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Global+Navigation+-+Part+2+http://localhost:4000/2020-02-23-global-navigation-part-2/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2020-02-23-global-navigation-part-2/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2020-02-23-global-navigation-part-2/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/colab-Sakshay_Mahna/2020-02-16-global-navigation-part-1/" data-toggle="tooltip" data-placement="top" title="Global Navigation - Part 1">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+          
+        <div class="staticman-comments">
+          
+
+        </div>
+        <div class="justcomments-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/colab-Sakshay_Mahna/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:sakshum19@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/SakshayMahna" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/MahnaSakshay" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/sakshaymahna" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Sakshay Mahna
+      &nbsp;&bull;&nbsp;
+      2020
+
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/colab-Sakshay_Mahna/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/main.js"></script>
+    
+  
+
+
+  
+  </body>
+</html>

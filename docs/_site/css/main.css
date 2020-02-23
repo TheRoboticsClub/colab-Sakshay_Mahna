@@ -744,6 +744,10 @@ td.gutter {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+.center-image{
+	text-align: center;
+}
+
 /* Tags page */
 
 .tag-btn {

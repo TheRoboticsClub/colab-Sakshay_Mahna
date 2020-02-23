@@ -219,13 +219,13 @@
 
 <h3 id="decomposition-of-region">Decomposition of Region</h3>
 
-<p>Decomposition of Region involves breaking down the complete map into smaller parts. Any efficient decomposition would work here. Trapezoidal Decomposition, Rectangular Decomposition, Complementary Region Decomposition to name a few. A very simple decomposition algorithm would be ‘Be on the Lookout’ Algorithm. Actually, there is no formal name of the algorithm, I just gave it on the basis of how it works!</p>
+<p>Decomposition of Region involves breaking down the complete map into smaller parts. Any efficient decomposition would work here. Trapezoidal Decomposition, Rectangular Decomposition, Complementary Region Decomposition to name a few. A very simple decomposition algorithm would be ‘Boustrophedon Decomposition’ Algorithm.</p>
 
 <p><img src="./../assets/trap_decomp.png" alt="Decomposition" /></p>
 
 <p><em>Trapezoidal Cellular Decomposition</em></p>
 
-<p>Literally, we have to be on the lookout of a free cell, while covering a region. Once, our robot signals the completion of a segment, the robot can then move onto the next segment, which it keeps storing on the fly. A simple implementation would be:</p>
+<p>The algorithm is simple in the sense that it involves no preprocessing task, and can be operated online. Implementation wise, while the robot is moving in the environment under the Sweep Algorithm, the robot needs to save all the vacant spaces it encounters surrounding it. Once, the robot reaches a point where it cannot move any further(considering that the robot cannot cross the obstacle, and cannot go to already visited spaces), the robot may enter the next segment to begin coverage.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#Returns a number based on whether the cell is free, has an obstacle, or is already covered</span>
 <span class="k">def</span> <span class="nf">checkCell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span> 
@@ -470,6 +470,10 @@
           <a href="/colab-Sakshay_Mahna/2020-01-04-talking-with-robots/" data-toggle="tooltip" data-placement="top" title="Talking with Robots">&larr; Previous Post</a>
         </li>
         
+        
+        <li class="next">
+          <a href="/colab-Sakshay_Mahna/2020-01-26-simple-automation/" data-toggle="tooltip" data-placement="top" title="Simple Automation">Next Post &rarr;</a>
+        </li>
         
       </ul>
 

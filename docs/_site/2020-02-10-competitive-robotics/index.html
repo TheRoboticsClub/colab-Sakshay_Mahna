@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Competitive Robotics</title>
+
+  <meta name="author" content="Sakshay Mahna" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Progress Blog - -- JDE Robotics" href="/colab-Sakshay_Mahna/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/colab-Sakshay_Mahna/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Competitive Robotics" />
+  
+
+   
+  <meta property="og:description" content="This post talks about Competitive Robotics, and the various competitions held around robotics. Most of the information in this post is an accumulation of all the ideas I had from my college technical fest, Advitiya held in the span of previous 3 days! Competitive Robotics Competition according to Wikipedia refers...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2020-02-10-competitive-robotics/" />
+  <link rel="canonical" href="http://localhost:4000/2020-02-10-competitive-robotics/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/logo.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Competitive Robotics" />
+  
+
+  
+  <meta name="twitter:description" content="This post talks about Competitive Robotics, and the various competitions held around robotics. Most of the information in this post is an accumulation of all the ideas I had from my college technical fest, Advitiya held in the span of previous 3 days! Competitive Robotics Competition according to Wikipedia refers...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/logo.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Progress Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/colab-Sakshay_Mahna/aboutme">About Me</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000">
+	      <img class="avatar-img" src="/colab-Sakshay_Mahna/img/logo.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Competitive Robotics</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 10, 2020</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <p>This post talks about Competitive Robotics, and the various competitions held around robotics. Most of the information in this post is an accumulation of all the ideas I had from my college technical fest, Advitiya held in the span of previous 3 days!</p>
+
+<h3 id="competitive-robotics">Competitive Robotics</h3>
+<p>Competition according to <a href="https://en.wikipedia.org/wiki/Competition">Wikipedia</a> refers to a situation whenever at least two parties strive for a goal which cannot be shared: where one’s gain is the other’s loss. Competing for being the best robot is what is called a Robot Competition. Robot competitions are a great way to learn about the practical aspects of Robotics(Engineering in general), where research, simulation and execution have to be done in a given deadline.</p>
+
+<p><img src="../assets/advitiya.png" alt="Advitiya" />
+<em>Advitiya IIT Ropar</em></p>
+
+<p>Advitiya is the techical fest organized by my college IIT Ropar. Following are the events, held during the fest and my learnings from organizing some of these events!</p>
+
+<h3 id="henchmen">Henchmen</h3>
+<p>Henchmen is a line follower robot competition, where we have to design an autonomous robot which follows either a black line in white area or white line in black area. Robot must be able to detect a particular line and keep following it. To make the competition tougher, the lines can form a maze, which the robot must solve. Another complication we can add is to add obstacles, diversions in the path, discontinuities in the path. Designing the most appropriate algorithm for following line is the winning strategy behind this competition.</p>
+
+<p><img src="../assets/henchmen1.gif" alt="Henchmen" /></p>
+
+<p><img src="../assets/henchmen2.gif" alt="Henchmen" /></p>
+
+<h3 id="robosoccer">RoboSoccer</h3>
+<p>Playing the old soccer game, with autonomous or manually controlled robots is the RoboSoccer competition. Control, Sturdy Body and Proper Connections and Part Selection are what makes the best robot for this event!</p>
+
+<p><img src="../assets/robosoccer1.gif" alt="RoboSoccer" /></p>
+
+<p><img src="../assets/robosoccer2.gif" alt="RoboSoccer" /></p>
+
+<h3 id="fury-road">Fury Road</h3>
+<p>An obstacle filled robot car race is the Fury Road event. The robot which takes the minimum time to complete the path is declared the winner. Building a sturdy robot body and controlling it efficiently are the skills required for a contestant to perform well in this event.</p>
+
+<p><img src="../assets/furyroad1.gif" alt="Fury Road" /></p>
+
+<p><img src="../assets/furyroad2.gif" alt="Fury Road" /></p>
+
+<h3 id="micromouse">Micromouse</h3>
+<p>This event was originally started by IEEE in the late 1970s. The maze is made up of 16x16 grid of cells, with walls in between the path. The mice are completely autonomous robots that must find their way from a predetermined starting position to the central area of the maze unaided. After navigating it’s path, through the maze a couple of times, the mouse that takes the shortest possible time to complete the run, is declared the winner.</p>
+
+<p><img src="../assets/micromouse1.jpeg" alt="MicroMouse" /></p>
+
+<p><img src="../assets/micromouse2.jpeg" alt="MicroMouse" /></p>
+
+<h3 id="cozmoclench">CozmoClench</h3>
+<p>CozmoClench competition involves building a gripper based robot, and using it to pick and place objects in a specified area on the map. The robot can be manual controlled or autonomous.</p>
+
+<p><img src="../assets/cozmo1.gif" alt="CozmoClench" /></p>
+
+<p><img src="../assets/cozmo2.gif" alt="CozmoClench" /></p>
+
+<p><img src="../assets/cozmo3.gif" alt="CozmoClench" /></p>
+
+<h3 id="offroad-asphault">Offroad Asphault</h3>
+<p>An offroad race, where small RC cars compete against each other. It was really interesting to see a miniaturized version of a Formula1 Car, fitted with internal combustion engines, suspensions, proper steering etc.</p>
+
+<p><img src="../assets/offroad1.gif" alt="Offroad Asphault" /></p>
+
+<p><img src="../assets/offroad2.gif" alt="Offroad Asphault" /></p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>These were some of the events, that I really liked. But there are still more remaining, like the quadcopter design, CADathon and Hackathon. The teams that won the events, were the ones that had been participating in these events for almost 4-5 years. This was the best lesson learnt in the span of 3 days!</p>
+
+<p><strong>In order to become better at any thing, be it sports, competitions, skills, we need to work on it consistently. Little by little each day. We would certainly experience failures in the beginning but it would reap the benefits at a later stage.</strong></p>
+
+<p><strong>Also, only working hard would not get the required results. A constant feedback loop; improving from mistakes, losing and facing dissappointments are the ingredients that go in as well!</strong></p>
+
+      </article>
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Competitive+Robotics+http://localhost:4000/2020-02-10-competitive-robotics/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2020-02-10-competitive-robotics/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2020-02-10-competitive-robotics/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/colab-Sakshay_Mahna/2020-01-26-simple-automation/" data-toggle="tooltip" data-placement="top" title="Simple Automation">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/colab-Sakshay_Mahna/2020-02-16-global-navigation-part-1/" data-toggle="tooltip" data-placement="top" title="Global Navigation - Part 1">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+          
+        <div class="staticman-comments">
+          
+
+        </div>
+        <div class="justcomments-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/colab-Sakshay_Mahna/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:sakshum19@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/SakshayMahna" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/MahnaSakshay" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/sakshaymahna" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Sakshay Mahna
+      &nbsp;&bull;&nbsp;
+      2020
+
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/colab-Sakshay_Mahna/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/colab-Sakshay_Mahna/js/main.js"></script>
+    
+  
+
+
+  
+  </body>
+</html>
