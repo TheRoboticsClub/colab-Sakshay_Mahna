@@ -4,10 +4,10 @@ title:  "Global Navigation - Part 1"
 date:   2020-2-16 23:00:00 +0530
 categories: global-navigation
 ---
-Mobile robot navigation is an essential issue in the field of robotics. They are known for their intelligence tendencies. They also cover wide range of applications, such as in transportation, industry, and rescue robots. This post talks about implementing Euclidean Distance Algorithm for Global Navigation Exercise on JdeRobot.
+Mobile robot navigation is an essential issue in the field of robotics. They are known for their intelligence tendencies. They also cover wide range of applications, such as in transportation, industry, and rescue robots. This post talks about the pros and cons of some algorithms for Global Navigation Exercise on JdeRobot.
 
 ### Motivation
-The Global Navigation Exercise on JdeRobot involves navigating a taxi through a city while avoiding walls that appear along the way. The destination to the car is given by us using a GUI application. A more sense of motivation can be added by seeing it's implementation in real life (or not so real life), Tony Stark's Audi R8. Even the taxi used in the exercise is almost the same except color.
+The Global Navigation Exercise on JdeRobot involves navigating a taxi through a city while avoiding walls that appear along the way. The destination to the car is given by us using a GUI application. A more sense of motivation can be added by seeing it's implementation in real life (or not so real life), Tony Stark's Audi R8. Even, the taxi used in the exercise is almost similar except the color.
 
 ![Global Navigation GUI](./../assets/global_navigation.png)
 
@@ -21,7 +21,7 @@ The Global Navigation Exercise on JdeRobot involves navigating a taxi through a 
 Before navigating through a path, we need to construct it! Path Planning is the name of the procedure where we construct the path from start to end. This post talks about the pros and cons of choosing an algorithm for Path Planning.
 
 #### Simpler Way
-It's always easy and time saving when we can use prebuilt libraries and softwares with minimal changes to them. [OMPL or Open Motion Planning Library](https://ompl.kavrakilab.org/), is one such library that consists of many well known sampling based motion planning algorithms. An additional benefit to prebuilt code is the **Sampling Based Approach**. Sampling algorithms are very fast as they are Randomized Algorithms. These algorithms work by randomly picking points in the map and connecting them to form the start to end path. For more information check out this [link](http://ompl.kavrakilab.org/OMPL_Primer.pdf). This is the primer for OMPL library, which describes how to use the library and a little introduction to the algorithms. The introduction are quite good and get their point across. But it's better to refer to [Demos](https://ompl.kavrakilab.org/group__demos.html) than the primer to learn the library.
+It's always easy and time saving when we can use prebuilt libraries and softwares with minimal changes to them. [OMPL or Open Motion Planning Library](https://ompl.kavrakilab.org/), is one such library that consists of many well known sampling based motion planning algorithms. An additional benefit to prebuilt code is the **Sampling Based Approach**. Sampling algorithms are very fast as they are Randomized Algorithms. These algorithms work by randomly picking points in the map and connecting them to form the start to end path. For more information check out this [link](http://ompl.kavrakilab.org/OMPL_Primer.pdf). This is the primer for OMPL library, which describes how to use the library and a little introduction to the algorithms. The introduction are quite good and get their point across the table. But it's better to refer to [Demos](https://ompl.kavrakilab.org/group__demos.html) than the primer to learn about the library.
 
 ![OMPL Library](./../assets/OMPL.png)
 
@@ -56,10 +56,10 @@ This algorithm very efficiently generates a path starting from target to source,
 *The Local Minima Problem*
 
 ### Which one to use
-So, Wave Front Algorithm is the one that should be implemented. Although, it takes time to generate the path, still it serves our purpose(A lot of time doesn't mean hours, only 2-3 minutes in our case). Coming on to the implementation part, it will be discussed in the next part of the series, until then,
+So, Wave Front Algorithm is the one that should be implemented. Although, it takes time to generate the path, still it serves our purpose(A lot of time doesn't mean hours, only 2-3 minutes in our case). Coming on to the implementation part, it will be discussed in the next part of the series, and until then,
 
 > Enjoy Machine Learning
-> - Kirill Eremenko
+> -Kirill Eremenko
 
 ![Enjoy Machine Learning](./../assets/kirill_eremenko.png)
 
