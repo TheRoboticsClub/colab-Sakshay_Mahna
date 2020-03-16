@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>ROS Navigation</title>
+        <description>
+          
+          A post on ROS Navigation. ROS provides us with a set of software libraries and tools to simplify the task of creating complex robotics applications. ROS Navigation Stack is one such facility that ROS provides in order to carry out the task of autonomous navigation. This post talks about setting...
+        </description>
+        <pubDate>Mon, 16 Mar 2020 08:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-03-16-ros-navigation/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-03-16-ros-navigation/</guid>
+      </item>
+    
+      <item>
         <title>Random Robotics Series 1</title>
         <description>
           
