@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Tensorflow 101</title>
+        <description>
+          
+          Tensorflow is computation library developed by Google. The library is mainly used in Machine Learning tasks.Let us talk about the basics of Tensorflow in this post. Let us try and give Newton a competition and aim towards learning Machine Learning and Artificial Neural Networks(to be precise) in this extended vacation...
+        </description>
+        <pubDate>Sun, 05 Apr 2020 16:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-04-05-tensorflow-101/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-04-05-tensorflow-101/</guid>
+      </item>
+    
+      <item>
         <title>ROS Navigation</title>
         <description>
           
