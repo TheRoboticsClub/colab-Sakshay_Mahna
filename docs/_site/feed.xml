@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Convolutional Neural Network</title>
+        <description>
+          
+          A Convolutional Neural Network, is a Deep Learning algorithm used to analyze visual data like images. CNNs are used in image and video recognition, recommender systems, image classification and medical image analysis. Let us talk about it’s implementation in Tensorflow Convolutional Neural Network Design of Network A CNN consists of...
+        </description>
+        <pubDate>Tue, 07 Apr 2020 15:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-04-07-convolutional-neural-network/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-04-07-convolutional-neural-network/</guid>
+      </item>
+    
+      <item>
         <title>Tensorflow 101</title>
         <description>
           
