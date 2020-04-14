@@ -7,6 +7,17 @@
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Deep Dream</title>
+        <description>
+          
+          Deep Dream is a computer vision program, developed by Google engineer Alexander Mordvintsev that turns simple images into dream-like psychedelic image. The program uses CNNs behind the scenes to make this happen. This post discusses about this algorithm and its implementation. Let’s get high! Deep Dream Algorithm Convolutional Neural Networks...
+        </description>
+        <pubDate>Tue, 14 Apr 2020 12:30:00 +0000</pubDate>
+        <link>http://localhost:4000/2020-04-14-deep-dream/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-04-14-deep-dream/</guid>
+      </item>
+    
+      <item>
         <title>Convolutional Neural Network</title>
         <description>
           
