@@ -12,5 +12,7 @@ Functionality for communicating images from Python to Javascript. The folder con
 
 ## HelloCode
 This includes the functionality of Ace Editor(Python) and executing the code on Python server. Submit the Code after typing in editor and check the terminal for results!
+*In case ace-builds is not cloned from this repo, clone it from [here](https://github.com/ajaxorg/ace-builds) and place in this folder*
 
+### Execution
 To run any of the code, first run the server(Python code) in terminal and then run the client(HTML file with embedded Javascript)
