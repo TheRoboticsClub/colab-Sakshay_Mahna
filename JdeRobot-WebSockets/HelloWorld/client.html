@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Client</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:5678/");
+        var linebreak = document.createElement("br");
+
+        ws.onmessage = function(event){
+            var message = document.createTextNode(event.data);
+            ws.send("Message Received")
+
+            var h = document.createElement("h1");
+            h.appendChild(message);
+            document.body.appendChild(h);
+            document.body.appendChild(linebreak);
+        };
+    </script>
+</html>
