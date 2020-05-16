@@ -14,35 +14,18 @@ class Template:
     def __init__(self):
         self.time_cycle = 1000
         self.process = None
-
+        
     # The process function
     def process_function(self, source_code):
-        # The while loop, to run indefinitely
-        while True:
-            try:
-                # Mechanism to ensure each command runs for atleast 1 second (taken from the current JdeRobot template)
-                start_time = datetime.now()
-                start = time.time()
+        try:
+            # The Python exec function
+            execution = exec(source_code)
+            if execution != None:
+                print(execution)
 
-                # The Python exec function
-                execution = exec(source_code)
-                if execution != None:
-                    print(execution)
-
-                finish_time = datetime.now()
-                dt = finish_time - start_time
-                ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
-
-                if(ms < self.time_cycle):
-                    time.sleep((self.time_cycle - ms) / 1000.0)
-
-                # Tells the time of running each instruction
-                finish = time.time()
-                print(f"This execution took " +  str(finish - start) + " seconds!")
-
-            # To print the errors that the user submitted through the Javascript editor (ACE)
-            except Exception:
-                traceback.print_exc()
+        # To print the errors that the user submitted through the Javascript editor (ACE)
+        except Exception:
+            traceback.print_exc()
 
 
     # Function that handles the process dynamics
@@ -67,7 +50,7 @@ class Template:
             # Once received send it to execute_process function
             async for message in websocket:
                 code = message
-                # print(code)
+                # print(repr(code))
                 self.execute_process(code)
         except:
             pass
