@@ -29,19 +29,27 @@ class Template:
     # 1. The user always passes sequential and iterative codes
     # 2. Only a single infinite loop
     def parse_code(self, source_code):
+        if source_code == "":
+            return "", ""
+
         # Search for an instance of while True
         infinite_loop = re.search(r'[^ \t]while\(True\):|[^ \t]while True:', source_code)
 
         # Seperate the content inside while True and the other
         # (Seperating the sequential and iterative part!)
-        start_index = infinite_loop.start()
-        iterative_code = source_code[start_index:]
-        sequential_code = source_code[:start_index]
+        try:
+            start_index = infinite_loop.start()
+            iterative_code = source_code[start_index:]
+            sequential_code = source_code[:start_index]
 
-        # Remove while True: syntax from the code
-        # And remove the the 4 spaces indentation before each command
-        iterative_code = re.sub(r'[^ ]while\(True\):|[^ ]while True:', '', iterative_code)
-        iterative_code = re.sub(r'^[ ]{4}', '', iterative_code, flags=re.M)
+            # Remove while True: syntax from the code
+            # And remove the the 4 spaces indentation before each command
+            iterative_code = re.sub(r'[^ ]while\(True\):|[^ ]while True:', '', iterative_code)
+            iterative_code = re.sub(r'^[ ]{4}', '', iterative_code, flags=re.M)
+
+        except:
+            sequential_code = source_code
+            iterative_code = ""
 
         return iterative_code, sequential_code
 
@@ -49,7 +57,7 @@ class Template:
     # The process function
     def process_code(self, source_code):
         # Reference Environment for the exec() function
-        reference_environment = {}
+        reference_environment = {'GUI': self.gui, 'HAL': self.hal}
         iterative_code, sequential_code = self.parse_code(source_code)
 
         # print(sequential_code)
