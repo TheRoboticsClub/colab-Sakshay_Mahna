@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import asyncio
-import websockets
+from websocket_server import WebsocketServer
+import logging
 import time
 import threading
 from datetime import datetime
@@ -23,6 +23,7 @@ class Template:
         # Initialize the GUI and HAL behind the scenes
         self.gui = gui.GUI()
         self.hal = hal.HAL()
+        self.hal.start()
 
     # Function to parse the code
     # A few assumptions: 
@@ -66,9 +67,7 @@ class Template:
         try:
             # The Python exec function
             # Run the sequential part
-            execution = exec(sequential_code, {"gui": gui, "hal": hal, "time": time}, reference_environment)
-            if execution != None:
-                print(execution)
+            exec(sequential_code, {"gui": gui, "hal": hal, "time": time}, reference_environment)
 
             # Run the iterative part inside template
             # and keep the check for flag
@@ -80,9 +79,7 @@ class Template:
                 reference_environment["GUI"] = self.gui
                 reference_environment["HAL"] = self.hal
                 # Execute the iterative portion
-                execution = exec(iterative_code, reference_environment)
-                if execution != None:
-                    print(execution)
+                exec(iterative_code, reference_environment)
 
                 # Template specifics to run!
                 finish_time = datetime.now()
@@ -115,23 +112,32 @@ class Template:
         print("New Thread Started!")
 
     # The websocket function
-    async def get_code(self, websocket, path):
+    # Gets called when there is an incoming message from the client
+    def handle(self, client, server, message):
         try:
-            # Wait asynchronously for the message from browser
             # Once received turn the reload flag up and send it to execute_thread function
-            async for message in websocket:
-                code = message
-                # print(repr(code))
-                self.reload = True
-                self.execute_thread(code)
+            code = message
+            # print(repr(code))
+            self.reload = True
+            self.execute_thread(code)
         except:
             pass
 
-    # Function to run the server indefinitely!
+    # Function that gets called when the server is connected
+    def connected(self, client, server):
+    	print(client, 'connected')
+    	
+    # Function that gets called when the connected closes
+    def handle_close(self, client, server):
+    	print(client, 'closed')
+    	
     def run_server(self):
-        start_server = websockets.serve(self.get_code, "127.0.0.1", 1905)
-        asyncio.get_event_loop().run_until_complete(start_server)
-        asyncio.get_event_loop().run_forever()
+    	server = WebsocketServer(port=1905, host="127.0.0.1")
+    	server.set_fn_new_client(self.connected)
+    	server.set_fn_client_left(self.handle_close)
+    	server.set_fn_message_received(self.handle)
+    	server.run_forever()
+    
 
 # Execute!
 if __name__ == "__main__":

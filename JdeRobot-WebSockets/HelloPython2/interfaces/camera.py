@@ -56,7 +56,7 @@ class ListenerCamera:
         self.data = Image()
         self.sub = None
         self.lock = threading.Lock()
-
+        
         self.bridge = CvBridge()
         self.start()
  
@@ -73,7 +73,6 @@ class ListenerCamera:
         self.sub.unregister()
 
     def start (self):
- 
         self.sub = rospy.Subscriber(self.topic, ImageROS, self.__callback)
         
     def getImage(self):

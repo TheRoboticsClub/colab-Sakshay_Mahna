@@ -2,18 +2,19 @@ import json
 import cv2
 import base64
 import threading
-import asyncio
-import websockets
+from websocket_server import WebsocketServer
+import logging
 
 # Graphical User Interface Class
-class GUI():
+class GUI:
     # Initialization function
     # The actual initialization
     def __init__(self):
         t = threading.Thread(target=self.run_server)
-        t.start()
-        self.show = False
         self.payload = {'image': '', 'shape': []}
+        self.server = None
+        self.client = None
+        t.start()
 
     # Explicit initialization function
     # Class method, so user can call it without instantiation
@@ -32,23 +33,16 @@ class GUI():
         self.payload['image'] = encoded_image.decode('utf-8')
         self.payload['shape'] = shape
 
-        self.show = True
+        self.server.send_message(self.client, json.dumps(self.payload))
 
-    # Asynchronous function to keep sending the image to Javascript
-    async def send_image(self, websocket, path):
-        while True:
-            if(self.show == True):
-                encode = json.dumps(self.payload)
-                await websocket.send(encode)
-                self.show = False
-
+    # Function to get the client
+    def get_client(self, client, server):
+    	self.client = client
+    
     # Activate the server
     def run_server(self):
-        # A seperate event loop to run two servers simultaneously
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        start_server = websockets.serve(self.send_image, "127.0.0.1", 2303)
-        asyncio.get_event_loop().run_until_complete(start_server)
-        asyncio.get_event_loop().run_forever()
+        self.server = WebsocketServer(port=2303, host="127.0.0.1")
+        self.server.set_fn_new_client(self.get_client)
+        self.server.run_forever()
         
 
