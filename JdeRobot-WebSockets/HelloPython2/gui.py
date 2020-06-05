@@ -36,6 +36,7 @@ class GUI:
         self.server.send_message(self.client, json.dumps(self.payload))
 
     # Function to get the client
+    # Called when a new client is received
     def get_client(self, client, server):
     	self.client = client
     

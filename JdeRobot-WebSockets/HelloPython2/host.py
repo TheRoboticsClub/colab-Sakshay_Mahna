@@ -23,7 +23,6 @@ class Template:
         # Initialize the GUI and HAL behind the scenes
         self.gui = gui.GUI()
         self.hal = hal.HAL()
-        self.hal.start()
 
     # Function to parse the code
     # A few assumptions: 
