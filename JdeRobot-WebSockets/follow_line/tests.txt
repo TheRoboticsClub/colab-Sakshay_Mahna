@@ -1,0 +1,12 @@
+from gui import GUI
+from hal import HAL
+import time
+
+GUI.initGUI()
+HAL.initRobot()
+
+i = 1
+
+while(True):
+    img = HAL.getImage()
+    GUI.showImage(img)
