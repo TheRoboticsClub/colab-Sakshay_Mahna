@@ -19,25 +19,53 @@ class Template:
         self.thread = None
         self.reload = False
         self.time_cycle = 80
+        
+        self.server = None
+        self.client = None
 
         # Initialize the GUI and HAL behind the scenes
         self.gui = gui.GUI()
         self.hal = hal.HAL()
+     
+    # Function for saving   
+    def save_code(self, source_code):
+    	with open('code/follow_line.py', 'w') as code_file:
+    		code_file.write(source_code)
+    
+    # Function for loading		
+    def load_code(self):
+    	with open('code/follow_line.py', 'r') as code_file:
+    		source_code = code_file.read()
+    		
+    	return source_code
 
     # Function to parse the code
     # A few assumptions: 
     # 1. The user always passes sequential and iterative codes
     # 2. Only a single infinite loop
     def parse_code(self, source_code):
-    	# Get the debug level and strip the debug part
-    	debug_level = int(source_code[5])
-    	source_code = source_code[5:]
+    	# Check for save/load
+    	if(source_code[:5] == "#save"):
+    		source_code = source_code[5:]
+    		self.save_code(source_code)
+    		
+    		return "", "", 1
     	
-    	source_code = self.debug_parse(source_code, debug_level)
-    	sequential_code, iterative_code = self.seperate_seq_iter(source_code)
-        
-
-        return iterative_code, sequential_code, debug_level
+    	elif(source_code[:5] == "#load"):
+    		source_code = self.load_code()
+    		self.server.send_message(self.client, source_code)
+    
+    		return "", "", 1
+    		
+    	else:
+			# Get the debug level and strip the debug part
+			debug_level = int(source_code[5])
+			source_code = source_code[5:]
+			
+			source_code = self.debug_parse(source_code, debug_level)
+			sequential_code, iterative_code = self.seperate_seq_iter(source_code)
+		    
+			return iterative_code, sequential_code, debug_level
         
     # Function to parse code according to the debugging level
     def debug_parse(self, source_code, debug_level):
@@ -148,6 +176,7 @@ class Template:
 
     # Function that gets called when the server is connected
     def connected(self, client, server):
+    	self.client = client
     	print(client, 'connected')
     	
     # Function that gets called when the connected closes
@@ -155,11 +184,11 @@ class Template:
     	print(client, 'closed')
     	
     def run_server(self):
-    	server = WebsocketServer(port=1905, host="127.0.0.1")
-    	server.set_fn_new_client(self.connected)
-    	server.set_fn_client_left(self.handle_close)
-    	server.set_fn_message_received(self.handle)
-    	server.run_forever()
+    	self.server = WebsocketServer(port=1905, host="127.0.0.1")
+    	self.server.set_fn_new_client(self.connected)
+    	self.server.set_fn_client_left(self.handle_close)
+    	self.server.set_fn_message_received(self.handle)
+    	self.server.run_forever()
     
 
 # Execute!

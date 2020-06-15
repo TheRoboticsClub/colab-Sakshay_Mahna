@@ -60,6 +60,44 @@ body{
     color: red;
 }
 
+#save {
+    margin-left: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #f2be00;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+}
+#save:hover{
+    background-color: white;
+    color: #f2be00;
+}
+
+#load {
+    margin-left: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #0d41ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+}
+#load:hover{
+    background-color: white;
+    color: #0d41ff;
+}
+
 .radio-toolbar {
   margin-left: 10%;
 }
