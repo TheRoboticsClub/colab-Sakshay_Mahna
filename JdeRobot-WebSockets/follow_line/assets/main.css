@@ -7,13 +7,27 @@ body{
     height: 80px;
     background-color: white;
     margin-bottom: 20px;
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.navigation-bar p{
+	line-height: 0.5;
+}
+
+.navigation-bar .header{
+	padding-top: 1px;
+	padding-left: 10px;
 }
 
 .logo{
     display: inline-block;
     vertical-align: top;
-    width: 400px;
+    padding-left: 5%;
+    width: 75px;
     height: 100%;
+    margin-right: 2%;
 }
 
 #editor {
@@ -24,82 +38,68 @@ body{
 }
 
 #submit {
-    margin-left: 10%;
+	width: 15%;
+    height: 10%;
     margin-top: 20px;
     border: none;
-    border-radius: 12px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s;
+    background-color: whitesmoke;
 }
-#submit:hover{
-    background-color: white;
-    color: #4CAF50;
+
+#submit img{
+	width: 35%;
 }
+
 #stop {
-    margin-left: 10px;
+    width: 15%;
+    height: 10%;
     margin-top: 20px;
     border: none;
-    background-color: red;
-    border-radius: 12px;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s;
+    background-color: whitesmoke;
 }
-#stop:hover{
-    background-color: white;
-    color: red;
+
+#stop img{
+	width: 35%;
 }
 
 #save {
-    margin-left: 10px;
+    width: 15%;
+    height: 10%;
     margin-top: 20px;
     border: none;
-    border-radius: 12px;
-    background-color: #f2be00;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s;
+    background-color: whitesmoke;
 }
-#save:hover{
-    background-color: white;
-    color: #f2be00;
+
+#save img{
+	width: 50%;
 }
 
 #load {
-    margin-left: 10px;
+    width: 15%;
+    height: 10%;
     margin-top: 20px;
     border: none;
-    border-radius: 12px;
-    background-color: #0d41ff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s;
-}
-#load:hover{
-    background-color: white;
-    color: #0d41ff;
+    background-color: whitesmoke;
 }
 
-.radio-toolbar {
-  margin-left: 10%;
+#load img{
+	width: 50%;
+}
+
+input[type=range]{
+	width: 100px;
+	height:20px;
+}
+
+th, td{
+	padding-left: 45px;
+}
+
+td{
+	text-align: center;
+}
+
+table{
+	border-spacing: 5px;
 }
 
 .radio-toolbar input[type="radio"] {
@@ -133,5 +133,16 @@ body{
 
 #code_container{
 	float: left;
-	width: 50%;
+	width: 40%;
+}
+
+#control_container{
+	float: left;
+	width: 30%;
+	margin-left: 10px;
+}
+
+#canvas_container{
+	float: left;
+	width: 30%;
 }

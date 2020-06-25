@@ -8,6 +8,8 @@ stop_button.disabled = true;
 stop_button.style.opacity = "0.4";
 stop_button.style.cursor = "not-allowed";
 
+var frequency = "12.5";
+
 //WebSocket for Code
 var websocket_code = new WebSocket("ws://127.0.0.1:1905/");
 
@@ -25,13 +27,16 @@ websocket_code.onclose = function(event){
 
 // Function that sends/submits the code!
 function submitCode(){
-	// Get the code from editor and add header
+	// Get the code from editor and add headers
     var python_code = editor.getValue();
     python_code = "#code\n" + python_code
     
     // Get the debug level and add header
     var debug_level = document.querySelector('input[name = "debug"]:checked').value;
     python_code = "#dbug" + debug_level + python_code
+    
+    // Add freqeuncy header
+    python_code = "#freq" + document.querySelector('#frequency').value + "\n" + python_code;
     
     console.log("Code Sent! Check terminal for more information!");
     websocket_code.send(python_code);
@@ -63,11 +68,25 @@ function loadCode(){
 	// Send message to initiate load message
 	var message = "#load";
 	websocket_code.send(message);
+	
+}
+
+// Function for range slider
+function frequencyUpdate(vol) {
+	document.querySelector('#frequency').value = vol;
 }
 
 websocket_code.onmessage = function(event){
 	var source_code = event.data;
-	editor.setValue(source_code);
+	operation = source_code.substring(0, 5);
+	
+	if(operation == "#load"){
+		editor.setValue(source_code);
+	}
+	else if(operation == "#freq"){
+		frequency = source_code.substring(5,);
+		document.querySelector('#ideal_frequency').value = frequency;
+	}
 };
 
 //Console Part

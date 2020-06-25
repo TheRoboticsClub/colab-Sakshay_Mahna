@@ -10,9 +10,13 @@
     <body>
         <!-- Navigation Bar -->
         <nav class="navigation-bar">
-            <img class="logo" src="https://kibotics.org/static/assets/img/logos/jderobot_web_logo.png">
+            <img class="logo" src="assets/img/logo.jpg" align="left">
+            <div class="header">
+		        <p>JdeRobot</p>
+		        <p>Robotics Academy</p>
+		    </div>
         </nav>
-
+        
         <!-- Code Editor -->
         <!-- Along with buttons -->
         <div id="code_container">
@@ -23,13 +27,39 @@
 while True:
     # Enter iterative code!
         </div>
-        <span style="display: inline;">
-            <button id="submit" type="button" onclick="submitCode()">Submit Code</button>
-            <button id="stop" type="button" onclick="stopCode()">Stop</button>
-            <button id="save" type="button" onclick="saveCode()">Save Code</button>
-            <button id="load" type="button" onclick="loadCode()">Load Code</button>
+        
+        </div>
+        <div id="control_container">
+        	<div id="Control" class="container">
+        		<!-- Icons made by <a href="https://smashicons.com/" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
+		        <button id="submit" type="button" onclick="submitCode()"><img src="./assets/img/submit.png"></button>
+		        <!-- Icons made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
+		        <button id="stop" type="button" onclick="stopCode()"><img src="./assets/img/pause.png"></button>
+		        <button id="save" type="button" onclick="saveCode()"><img src="./assets/img/upload.png"></button>
+		        <button id="load" type="button" onclick="loadCode()"><img src="./assets/img/download.png"></button>
+            </div>
+         
+            
+            <div id="Frequency" class="container">
+		        <!-- Source http://thenewcode.com/757/Playing-With-The-HTML5-range-Slider-Input -->
+		        <p>Frequency of Iterations</p>
+		        <table>
+		        	<tr>
+						<th>Slider</th>
+						<th>Current Frequency</th>
+						<th>Ideal Frequency</th>
+					</tr>
+					<tr>
+						<td><input type="range" min="0" max="30" value="12.5" id="fader" 
+							step="0.1" oninput="frequencyUpdate(value)"></td>
+						<td><output for="fader" id="frequency">12.5</output></td>
+						<td><output id="ideal_frequency">12.5</output></td>
+					</tr>
+				</table>
+			</div>
             
             <!-- Taken from https://markheath.net/post/customize-radio-button-css -->
+            <div id="Debug" class="container">
          	<div class="radio-toolbar">
          		<p>Debug Level</p>
 				<input type="radio" id="debug0" name="debug" value="0" checked>
@@ -44,10 +74,8 @@ while True:
 				<input type="radio" id="debug3" name="debug" value="3">
 				<label for="debug3">Level 3</label> 
 			</div>
-        </span>
-        
+			</div>
         </div>
-
         <!-- Canvas -->
         <div id="canvas_container">
         	<canvas id="gui_canvas"></canvas>

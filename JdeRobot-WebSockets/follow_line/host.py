@@ -18,8 +18,12 @@ class Template:
     def __init__(self):
         self.thread = None
         self.reload = False
-        self.time_cycle = 80
         
+        # Time variables
+        self.time_cycle = 80
+        self.ideal_cycle = 80
+        self.iteration_counter = 0
+                
         self.server = None
         self.client = None
 
@@ -52,20 +56,26 @@ class Template:
     		return "", "", 1
     	
     	elif(source_code[:5] == "#load"):
-    		source_code = self.load_code()
+    		source_code = source_code + self.load_code()
     		self.server.send_message(self.client, source_code)
     
     		return "", "", 1
     		
     	else:
-			# Get the debug level and strip the debug part
-			debug_level = int(source_code[5])
-			source_code = source_code[5:]
+    		# Get the frequency of operation, convert to time_cycle and strip
+    		partition = source_code[5:].partition("\n")
+    		frequency = partition[0]
+    		frequency = float(frequency)
+    		self.time_cycle = 1.0 / frequency
+    		source_code = partition[2]
+    		# Get the debug level and strip the debug part
+    		debug_level = int(source_code[5])
+    		source_code = source_code[5:]
+    		
+    		source_code = self.debug_parse(source_code, debug_level)
+    		sequential_code, iterative_code = self.seperate_seq_iter(source_code)
+    		return iterative_code, sequential_code, debug_level
 			
-			source_code = self.debug_parse(source_code, debug_level)
-			sequential_code, iterative_code = self.seperate_seq_iter(source_code)
-		    
-			return iterative_code, sequential_code, debug_level
         
     # Function to parse code according to the debugging level
     def debug_parse(self, source_code, debug_level):
@@ -134,8 +144,11 @@ class Template:
 
                 # Template specifics to run!
                 finish_time = datetime.now()
-                dt = start_time - finish_time
+                dt = finish_time - start_time
                 ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+                
+                # Keep updating the iteration counter
+                self.iteration_counter = self.iteration_counter + 1
 
                 if(ms < self.time_cycle):
                     time.sleep((self.time_cycle - ms) / 1000.0)
@@ -146,6 +159,29 @@ class Template:
         # To print the errors that the user submitted through the Javascript editor (ACE)
         except Exception:
             traceback.print_exc()
+            
+    # Function to measure the frequency of iterations
+    def measure_frequency(self):
+        previous_time = datetime.now()
+        # An infinite loop
+        while True:
+            # Sleep for 2 seconds
+            time.sleep(2)
+            
+            # Measure the current time and subtract from the previous time to get real time interval
+            current_time = datetime.now()
+            dt = current_time - previous_time
+            ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+            previous_time = current_time
+            
+            # Get the time period
+            self.ideal_cycle = ms / self.iteration_counter
+            
+            # Reset the counter
+            self.iteration_counter = 0
+            
+            # Send to client
+            self.server.send_message(self.client, "#freq" + str(1 / self.ideal_cycle))
     
     # Function to maintain thread execution
     def execute_thread(self, source_code):
@@ -158,8 +194,10 @@ class Template:
         # Turn the flag down, the iteration has successfully stopped!
         self.reload = False
         # New thread execution
+        self.measure_thread = threading.Thread(target=self.measure_frequency)
         self.thread = threading.Thread(target=self.process_code, args=[source_code])
         self.thread.start()
+        self.measure_thread.start()
         print("New Thread Started!")
 
     # The websocket function
