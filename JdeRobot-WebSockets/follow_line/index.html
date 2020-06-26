@@ -31,23 +31,22 @@ while True:
         </div>
         <div id="control_container">
         	<div id="Control" class="container">
-        		<!-- Icons made by <a href="https://smashicons.com/" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
-		        <button id="submit" type="button" onclick="submitCode()"><img src="./assets/img/submit.png"></button>
-		        <!-- Icons made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
-		        <button id="stop" type="button" onclick="stopCode()"><img src="./assets/img/pause.png"></button>
-		        <button id="save" type="button" onclick="saveCode()"><img src="./assets/img/upload.png"></button>
-		        <button id="load" type="button" onclick="loadCode()"><img src="./assets/img/download.png"></button>
+        		<ul>
+				    <li>Play<br><button id="submit" type="button" onclick="submitCode()"><img src="./assets/img/submit.png"></button></li>
+				    <li>Stop<br><button id="stop" type="button" onclick="stopCode()"><img src="./assets/img/pause.png"></button></li>
+				    <li>Save<br><button id="save" type="button" onclick="saveCode()"><img src="./assets/img/upload.png"></button></li>
+				    <li>Load<br><button id="load" type="button" onclick="loadCode()"><img src="./assets/img/download.png"></button></li>
+            	</ul>
             </div>
          
             
             <div id="Frequency" class="container">
 		        <!-- Source http://thenewcode.com/757/Playing-With-The-HTML5-range-Slider-Input -->
-		        <p>Frequency of Iterations</p>
 		        <table>
 		        	<tr>
 						<th>Slider</th>
-						<th>Current Frequency</th>
-						<th>Ideal Frequency</th>
+						<th>Target Frequency</th>
+						<th>Measured Frequency</th>
 					</tr>
 					<tr>
 						<td><input type="range" min="0" max="30" value="12.5" id="fader" 

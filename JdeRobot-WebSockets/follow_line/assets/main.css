@@ -37,52 +37,62 @@ body{
     width: 90%;
 }
 
+#Control ul{
+	list-style-type: none;
+	overflow: hidden;
+}
+
+#Control ul > li{
+	display: inline-block;
+	text-align: center;
+}
+
+#Control img{
+	height: 30px;
+}
+
 #submit {
-	width: 15%;
-    height: 10%;
-    margin-top: 20px;
+	width: 80px;
+    height: 50px;
     border: none;
     background-color: whitesmoke;
 }
 
-#submit img{
-	width: 35%;
+#submit:hover .tooltiptext{
+	visibility: visible;
 }
 
 #stop {
-    width: 15%;
-    height: 10%;
-    margin-top: 20px;
+    width: 80px;
+    height: 50px;
     border: none;
     background-color: whitesmoke;
 }
 
-#stop img{
-	width: 35%;
+#stop:hover .tooltiptext{
+	visibility: visible;
 }
 
 #save {
-    width: 15%;
-    height: 10%;
-    margin-top: 20px;
+    width: 80px;
+    height: 50px;
     border: none;
     background-color: whitesmoke;
 }
 
-#save img{
-	width: 50%;
+#save:hover .tooltiptext{
+	visibility: visible;
 }
 
 #load {
-    width: 15%;
-    height: 10%;
-    margin-top: 20px;
+    width: 80px;
+    height: 50px;
     border: none;
     background-color: whitesmoke;
 }
 
-#load img{
-	width: 50%;
+#load:hover .tooltiptext{
+	visibility: visible;
 }
 
 input[type=range]{
