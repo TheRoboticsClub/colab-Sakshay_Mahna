@@ -95,7 +95,7 @@ body{
 	visibility: visible;
 }
 
-input[type=range]{
+#Frequency input[type=range]{
 	width: 100px;
 	height:20px;
 }
@@ -112,33 +112,33 @@ table{
 	border-spacing: 5px;
 }
 
-.radio-toolbar input[type="radio"] {
-  opacity: 0;
-  position: fixed;
-  width: 0;
+#Debug{
+	margin-left: 10%;
 }
 
-.radio-toolbar label {
-    display: inline-block;
-    background-color: #ddd;
-    padding: 10px 20px;
-    font-family: sans-serif, Arial;
-    font-size: 16px;
-    border: 2px solid #D8BFD8;
-    border-radius: 4px;
+#Debug input{
+	float: left;
 }
 
-.radio-toolbar label:hover {
-  background-color: #E6E6FA;
+#Debug ul{
+	list-style-type: none;
 }
 
-.radio-toolbar input[type="radio"]:focus + label {
-    border: 2px dashed #D8BFD8;
+#Debug li{
+	line-height: 3;
+	border: 1px;
 }
 
-.radio-toolbar input[type="radio"]:checked + label {
-    background-color: #BA55D3;
-    border-color: #9400D3;
+#Debug img{
+	width: 30px;
+}
+
+.debug-slider{
+	border-radius: 5px;
+	width: 15px;
+	height: 100%;
+	background: #d3d3d3;
+	outline: none;
 }
 
 #code_container{

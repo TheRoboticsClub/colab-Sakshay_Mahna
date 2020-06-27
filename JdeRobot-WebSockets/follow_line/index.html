@@ -50,7 +50,7 @@ while True:
 					</tr>
 					<tr>
 						<td><input type="range" min="0" max="30" value="12.5" id="fader" 
-							step="0.1" oninput="frequencyUpdate(value)"></td>
+							step="0.1" oninput="frequencyUpdate(value)" class="frequency-slider"></td>
 						<td><output for="fader" id="frequency">12.5</output></td>
 						<td><output id="ideal_frequency">12.5</output></td>
 					</tr>
@@ -59,20 +59,15 @@ while True:
             
             <!-- Taken from https://markheath.net/post/customize-radio-button-css -->
             <div id="Debug" class="container">
-         	<div class="radio-toolbar">
-         		<p>Debug Level</p>
-				<input type="radio" id="debug0" name="debug" value="0" checked>
-				<label for="debug0">Level 0</label>
+            	<h4>Debug Level</h4>
+     			<input type="range" min="1" max="4" steps="1" value="1" orient="vertical" name="debug" class="debug-slider"> 
+     			<ul class="debug-labels">
+					<li><img src="./assets/img/four.png"></li>
+					<li><img src="./assets/img/three.png"></li>
+					<li><img src="./assets/img/two.png"></li>
+					<li><img src="./assets/img/one.png"></li>
+				</ul>
 
-				<input type="radio" id="debug1" name="debug" value="1">
-				<label for="debug1">Level 1</label>
-
-				<input type="radio" id="debug2" name="debug" value="2">
-				<label for="debug2">Level 2</label>
-				
-				<input type="radio" id="debug3" name="debug" value="3">
-				<label for="debug3">Level 3</label> 
-			</div>
 			</div>
         </div>
         <!-- Canvas -->
