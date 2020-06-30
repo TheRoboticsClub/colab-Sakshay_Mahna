@@ -24,17 +24,14 @@ body{
 .logo{
     display: inline-block;
     vertical-align: top;
-    padding-left: 5%;
-    width: 75px;
     height: 100%;
     margin-right: 2%;
 }
 
 #editor {
     border: 1px solid lightgray;
-    margin-left: 10%;
     height: 500px;
-    width: 90%;
+    width: 100%;
 }
 
 #Control ul{
@@ -114,6 +111,7 @@ table{
 
 #Debug{
 	margin-left: 10%;
+	float: left;
 }
 
 #Debug input{
@@ -147,12 +145,6 @@ table{
 }
 
 #control_container{
-	float: left;
-	width: 30%;
-	margin-left: 10px;
-}
-
-#canvas_container{
 	float: left;
 	width: 30%;
 }

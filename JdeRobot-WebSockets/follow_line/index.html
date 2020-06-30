@@ -12,11 +12,12 @@
         <nav class="navigation-bar">
             <img class="logo" src="assets/img/logo.jpg" align="left">
             <div class="header">
-		        <p>JdeRobot</p>
 		        <p>Robotics Academy</p>
+		        <p>JdeRobot</p>
 		    </div>
         </nav>
         
+        <div id="code-control">
         <!-- Code Editor -->
         <!-- Along with buttons -->
         <div id="code_container">
@@ -69,18 +70,29 @@ while True:
 				</ul>
 
 			</div>
+			
         </div>
         <!-- Canvas -->
         <div id="canvas_container">
         	<canvas id="gui_canvas"></canvas>
         </div>
+        </div>
         
         <!-- Console -->
+        <div id="Console" class="container">
+        	Psuedo Console
+			<ul>
+				<li>
+					<input value=">>" class="terminal" readonly><input class="command">
+				</li>
+			</ul>
+		</div>
         
     </body>
 
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="assets/ws_code.js" type="text/javascript" charset="utf-8"></script>
     <script src="assets/ws_gui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="assets/console.js" type="text/javascript" charset="utf-8"></script>
 
 </html>
