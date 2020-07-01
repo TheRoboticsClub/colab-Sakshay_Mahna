@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 from websocket_server import WebsocketServer
 import logging
 import time
@@ -10,6 +12,7 @@ import traceback
 
 import gui
 import hal
+import console
 
 class Template:
     # Initialize class variables
@@ -27,8 +30,9 @@ class Template:
         self.server = None
         self.client = None
 
-        # Initialize the GUI and HAL behind the scenes
-        self.gui = gui.GUI()
+        # Initialize the GUI, HAL and Console behind the scenes
+        self.console = console.Console()
+        self.gui = gui.GUI(self.console)
         self.hal = hal.HAL()
      
     # Function for saving   
@@ -115,7 +119,7 @@ class Template:
     # The process function
     def process_code(self, source_code):
         # Reference Environment for the exec() function
-        reference_environment = {'GUI': self.gui, 'HAL': self.hal}
+        reference_environment = {'GUI': self.gui, 'HAL': self.hal, 'console': self.console, 'print': print_function}
         iterative_code, sequential_code, debug_level = self.parse_code(source_code)
         
         # print("The debug level is " + str(debug_level)
@@ -175,7 +179,11 @@ class Template:
             previous_time = current_time
             
             # Get the time period
-            self.ideal_cycle = ms / self.iteration_counter
+            try:
+            	# Division by zero
+            	self.ideal_cycle = ms / self.iteration_counter
+            except:
+            	self.ideal_cycle = 80
             
             # Reset the counter
             self.iteration_counter = 0

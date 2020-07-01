@@ -1,7 +1,6 @@
 # Enter sequential code!
 
-i = 1
-
+console.print(1)
 while True:
-    print(i)
+    # Enter iterative code!
         

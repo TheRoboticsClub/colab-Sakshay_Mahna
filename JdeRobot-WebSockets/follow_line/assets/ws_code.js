@@ -32,7 +32,7 @@ function submitCode(){
     python_code = "#code\n" + python_code
     
     // Get the debug level and add header
-    var debug_level = document.querySelector('input[name = "debug"]:checked').value;
+    var debug_level = document.querySelector('input[name = "debug"]').value;
     python_code = "#dbug" + debug_level + python_code
     
     // Add freqeuncy header
@@ -81,7 +81,7 @@ websocket_code.onmessage = function(event){
 	operation = source_code.substring(0, 5);
 	
 	if(operation == "#load"){
-		editor.setValue(source_code);
+		editor.setValue(source_code.substring(5,));
 	}
 	else if(operation == "#freq"){
 		frequency = source_code.substring(5,);

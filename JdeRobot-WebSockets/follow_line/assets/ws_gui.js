@@ -29,14 +29,26 @@ image.onload = function(){
 
 // What to do when a message from server is received?
 websocket.onmessage = function(event){
-    var data = JSON.parse(event.data),
-        source = decode_utf8(data.image),
-        shape = data.shape;
+    var operation = event.data.substring(0, 4);
 
-    canvas.width = shape[1];
-    canvas.height = shape[0];
+    if(operation == "#img"){
+		var data = JSON.parse(event.data.substring(4, )),
+		 	source = decode_utf8(data.image),
+		    shape = data.shape;
 
-    image.src = "data:image/jpeg;base64," + source;
+		canvas.width = shape[1];
+		canvas.height = shape[0];
 
-    websocket.send("Image Displayed!")
+		image.src = "data:image/jpeg;base64," + source;
+
+		websocket.send("Image Displayed!")
+	}
+	
+	else if(operation == "#con"){
+		// Set the value of command
+		var command_input = event.data.substring(4, );
+		command.value = command_input;
+		// Go to next command line
+		next_command();
+	}
 };
