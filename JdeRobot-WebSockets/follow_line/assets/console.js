@@ -16,6 +16,7 @@ function next_command(){
 	
 	// Create and append new list item
 	var new_item = document.createElement("li");
+	new_item.classList.add("Console-item");
 	
 	var new_terminal = document.createElement("input");
 	new_terminal.classList.add("terminal");
@@ -29,16 +30,16 @@ function next_command(){
 	
 	command_list.appendChild(new_item);
 	
-	// Make way for the next terminal input
-	command_number = command_number + 1;
-	
 	// Maintain the content of the console
-	if(command_number == 2){
-		var command_to_delete = command_list.childNodes[1];
+	// Otherwise the computer will hang!!
+	if(command_number == 100){
+		var command_to_delete = document.getElementsByClassName("Console-item")[0];
 		command_to_delete.remove();
-		command_number = 2;
+		command_number = command_number - 1;
 	}
 	
+	// Make way for the next terminal input
+	command_number = command_number + 1;
 	command = document.getElementsByClassName("command")[command_number];
 }
 
