@@ -20,6 +20,8 @@ class Console:
 
 	# Function to read from psuedo console
 	def read(self, text):
-		pass
+		message = "#con" + str(text)
+		print(text)
+		
 		
 	

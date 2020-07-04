@@ -67,14 +67,18 @@ class Template:
     		
     	else:
     		# Get the frequency of operation, convert to time_cycle and strip
-    		partition = source_code[5:].partition("\n")
-    		frequency = partition[0]
-    		frequency = float(frequency)
-    		self.time_cycle = 1.0 / frequency
-    		source_code = partition[2]
-    		# Get the debug level and strip the debug part
-    		debug_level = int(source_code[5])
-    		source_code = source_code[5:]
+    		try:
+        		partition = source_code[5:].partition("\n")
+        		frequency = partition[0]
+        		frequency = float(frequency)
+        		self.time_cycle = 1000.0 / frequency
+        		source_code = partition[2]
+        		# Get the debug level and strip the debug part
+        		debug_level = int(source_code[5])
+        		source_code = source_code[5:]
+        	except:
+        		debug_level = 1
+        		source_code = source_code[5]
     		
     		source_code = self.debug_parse(source_code, debug_level)
     		sequential_code, iterative_code = self.seperate_seq_iter(source_code)
@@ -153,7 +157,7 @@ class Template:
                 
                 # Keep updating the iteration counter
                 self.iteration_counter = self.iteration_counter + 1
-
+            
                 if(ms < self.time_cycle):
                     time.sleep((self.time_cycle - ms) / 1000.0)
 
