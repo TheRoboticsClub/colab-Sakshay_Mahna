@@ -3,4 +3,5 @@
 
 while True:
     # Enter iterative code!
-    console.print(1)
+    a = console.read("INPUT")
+    console.print("THe user input is " + a)    

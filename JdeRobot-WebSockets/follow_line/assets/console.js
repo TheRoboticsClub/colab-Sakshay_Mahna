@@ -52,8 +52,8 @@ python_console.addEventListener("keyup", function(event){
 		event.preventDefault();
 		
 		// Get the value and send to Python Interpreter
-		var console_input = "#cons\n" + command.value;
-		websocket_code.send(console_input);
+		var console_input = "#con\n" + command.value;
+		websocket_gui.send(console_input);
 		
 		// Call the function
 		next_command();

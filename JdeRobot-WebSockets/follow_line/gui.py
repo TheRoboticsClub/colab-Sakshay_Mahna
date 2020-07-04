@@ -50,6 +50,7 @@ class GUI:
     def run_server(self):
         self.server = WebsocketServer(port=2303, host="127.0.0.1")
         self.server.set_fn_new_client(self.get_client)
+        self.server.set_fn_message_received(self.console.prompt)
         self.server.run_forever()
         
 

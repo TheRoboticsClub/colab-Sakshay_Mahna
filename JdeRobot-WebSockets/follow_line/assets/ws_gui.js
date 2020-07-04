@@ -4,16 +4,16 @@ function decode_utf8(s){
 }
 
 // Websocket and other variables for image display
-var websocket = new WebSocket('ws://127.0.0.1:2303/'),
+var websocket_gui = new WebSocket('ws://127.0.0.1:2303/'),
     canvas = document.getElementById("gui_canvas"),
     context = canvas.getContext('2d');
     image = new Image();
 
-websocket.onopen = function(event){
+websocket_gui.onopen = function(event){
     alert("[open] Connection established!");
 }
 
-websocket.onclose = function(event){
+websocket_gui.onclose = function(event){
     if(event.wasClean){
         alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
     }
@@ -28,7 +28,7 @@ image.onload = function(){
 }
 
 // What to do when a message from server is received?
-websocket.onmessage = function(event){
+websocket_gui.onmessage = function(event){
     var operation = event.data.substring(0, 4);
 
     if(operation == "#img"){
@@ -41,14 +41,24 @@ websocket.onmessage = function(event){
 
 		image.src = "data:image/jpeg;base64," + source;
 
-		websocket.send("Image Displayed!")
+		websocket_gui.send("Image Displayed!")
 	}
 	
-	else if(operation == "#con"){
+	else if(operation == "#cop"){
 		// Set the value of command
 		var command_input = event.data.substring(4, );
 		command.value = command_input;
 		// Go to next command line
 		next_command();
+	}
+	
+	else if(operation == "#cor"){
+		// Set the value of command
+		var command_input = event.data.substring(4, );
+		command.value = command_input;
+		// Go to next command line
+		next_command();
+		// Focus on the next line
+		command.focus();
 	}
 };

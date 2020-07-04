@@ -193,7 +193,7 @@ class Template:
             self.iteration_counter = 0
             
             # Send to client
-            self.server.send_message(self.client, "#freq" + str(1 / self.ideal_cycle))
+            self.server.send_message(self.client, "#freq" + str(1000 / self.ideal_cycle))
     
     # Function to maintain thread execution
     def execute_thread(self, source_code):
