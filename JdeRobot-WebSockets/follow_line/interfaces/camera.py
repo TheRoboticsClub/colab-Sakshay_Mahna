@@ -15,7 +15,7 @@ def imageMsg2Image(img, bridge):
 
     image.width = img.width
     image.height = img.height
-    image.format = "RGB8"
+    image.format = "BGR8"
     image.timeStamp = img.header.stamp.secs + (img.header.stamp.nsecs *1e-9)
     cv_image=0
     if (img.encoding[-2:] == "C1"):

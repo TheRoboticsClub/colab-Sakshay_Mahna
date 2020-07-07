@@ -6,6 +6,7 @@ from websocket_server import WebsocketServer
 import logging
 import time
 import threading
+import sys
 from datetime import datetime
 import re
 import traceback
@@ -37,12 +38,12 @@ class Template:
      
     # Function for saving   
     def save_code(self, source_code):
-    	with open('code/follow_line.py', 'w') as code_file:
+    	with open('code/academy.py', 'w') as code_file:
     		code_file.write(source_code)
     
     # Function for loading		
     def load_code(self):
-    	with open('code/follow_line.py', 'r') as code_file:
+    	with open('code/academy.py', 'r') as code_file:
     		source_code = code_file.read()
     		
     	return source_code
@@ -158,21 +159,24 @@ class Template:
                 # Keep updating the iteration counter
                 self.iteration_counter = self.iteration_counter + 1
             
+            	# The code should be run for atleast the target time step
+            	# If it's less put to sleep
+            	# If it's more no problem as such, but we can change it!
                 if(ms < self.time_cycle):
                     time.sleep((self.time_cycle - ms) / 1000.0)
 
-            # self.thread.join()
             print("Current Thread Joined!")
 
         # To print the errors that the user submitted through the Javascript editor (ACE)
         except Exception:
-            traceback.print_exc()
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            self.console.print(exc_value)
             
     # Function to measure the frequency of iterations
     def measure_frequency(self):
         previous_time = datetime.now()
         # An infinite loop
-        while True:
+        while self.reload == False:
             # Sleep for 2 seconds
             time.sleep(2)
             
@@ -200,7 +204,7 @@ class Template:
         # Keep checking until the thread is alive
         # The thread will die when the coming iteration reads the flag
         if(self.thread != None):
-            while self.thread.is_alive():
+            while self.thread.is_alive() or self.measure_thread.is_alive():
                 pass
 
         # Turn the flag down, the iteration has successfully stopped!
@@ -227,6 +231,11 @@ class Template:
     # Function that gets called when the server is connected
     def connected(self, client, server):
     	self.client = client
+    	# Start the GUI update thread
+    	t = gui.ThreadGUI(self.gui)
+    	t.daemon = True
+    	t.start()
+    	
     	print(client, 'connected')
     	
     # Function that gets called when the connected closes

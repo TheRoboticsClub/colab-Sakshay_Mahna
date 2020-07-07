@@ -5,6 +5,9 @@ var command_number = 0;
 var command = document.getElementsByClassName("command")[command_number];
 var python_console = document.getElementById("Console");
 
+// Empty the command
+command.value = "";
+
 // Get the Console ul
 var command_list = document.getElementById("Console").childNodes[1];
 

@@ -45,9 +45,8 @@ class Console:
 
 		if(source_code[:4] == "#con"):
 			source_code = source_code[5:]
-			
-		self.user_input = source_code
-		print("Input from user received")
-		print(self.user_input)
+			self.user_input = source_code
+			print("Input from user received")
+			print(self.user_input)
 		
 	

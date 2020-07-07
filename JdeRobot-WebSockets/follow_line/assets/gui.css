@@ -5,6 +5,7 @@
 }
 
 #gui_canvas {
+	margin-left: 20%;
     height: 300px;
-    width: 60%;
+    width: 80%;
 }

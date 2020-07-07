@@ -2,6 +2,8 @@ import json
 import cv2
 import base64
 import threading
+import time
+from datetime import datetime
 from websocket_server import WebsocketServer
 import logging
 
@@ -11,9 +13,12 @@ class GUI:
     # The actual initialization
     def __init__(self, console):
         t = threading.Thread(target=self.run_server)
+        
         self.payload = {'image': '', 'shape': []}
         self.server = None
         self.client = None
+        
+        self.image_lock = threading.Lock()
         
         # Take the console object to set the same websocket and client
         self.console = console
@@ -35,16 +40,23 @@ class GUI:
 
         self.payload['image'] = encoded_image.decode('utf-8')
         self.payload['shape'] = shape
-        
-        message = "#img" + json.dumps(self.payload) 
-
-        self.server.send_message(self.client, message)
 
     # Function to get the client
     # Called when a new client is received
     def get_client(self, client, server):
     	self.client = client
         self.console.set_websocket(self.server, self.client)
+        
+    # Update the gui
+    def update_gui(self):
+        self.image_lock.acquire()
+        message = "#img" + json.dumps(self.payload)
+        self.image_lock.release()
+        
+        try:
+            self.server.send_message(self.client, message)
+        except:
+            pass
     
     # Activate the server
     def run_server(self):
@@ -54,3 +66,22 @@ class GUI:
         self.server.run_forever()
         
 
+# This class decouples the user thread
+# and the GUI update thread
+class ThreadGUI(threading.Thread):
+	def __init__(self, gui):
+		self.gui = gui
+		self.time_cycle = 1000
+		threading.Thread.__init__(self)
+		
+	def run(self):
+		while(True):
+			start_time = datetime.now()
+			self.gui.update_gui()
+			
+			finish_time = datetime.now()
+			
+			dt = finish_time - start_time
+			ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
+			if(ms < self.time_cycle):
+				time.sleep((self.time_cycle-ms) / 1000.0)
