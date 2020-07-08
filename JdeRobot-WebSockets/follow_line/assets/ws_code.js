@@ -71,6 +71,13 @@ function loadCode(){
 	
 }
 
+// Function to command the simulation to reset
+function resetSim(){
+	// Send message to initiate reset
+	var message = "#rest"
+	websocket_code.send(message)
+}
+
 // Function for range slider
 function frequencyUpdate(vol) {
 	document.querySelector('#frequency').value = vol;
@@ -88,6 +95,4 @@ websocket_code.onmessage = function(event){
 		document.querySelector('#ideal_frequency').value = frequency;
 	}
 };
-
-//Console Part
 

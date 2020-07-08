@@ -11,6 +11,9 @@ from datetime import datetime
 import re
 import traceback
 
+import rospy
+from std_srvs.srv import Empty
+
 import gui
 import hal
 import console
@@ -66,6 +69,11 @@ class Template:
     
     		return "", "", 1
     		
+    	elif(source_code[:5] == "#rest"):
+    		reset_simulation = rospy.ServiceProxy('/gazebo/reset_simulation', Empty)
+    		reset_simulation()
+    		return "", "", 1
+    		
     	else:
     		# Get the frequency of operation, convert to time_cycle and strip
     		try:
@@ -88,7 +96,7 @@ class Template:
         
     # Function to parse code according to the debugging level
     def debug_parse(self, source_code, debug_level):
-    	if(debug_level == 0):
+    	if(debug_level == 1):
     		# If debug level is 0, then all the GUI operations should not be called
     		source_code = re.sub(r'GUI\..*', '', source_code)
     		
@@ -197,7 +205,7 @@ class Template:
             self.iteration_counter = 0
             
             # Send to client
-            self.server.send_message(self.client, "#freq" + str(1000 / self.ideal_cycle))
+            self.server.send_message(self.client, "#freq" + str(round(1000 / self.ideal_cycle, 2)))
     
     # Function to maintain thread execution
     def execute_thread(self, source_code):

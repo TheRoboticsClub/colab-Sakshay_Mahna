@@ -10,17 +10,16 @@ accum_error = 0
 while True:
     image = HAL.getImage()
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-    lower_thresh = np.array([50, 50, 50])
+    lower_thresh = np.array([0, 0, 0])
     upper_thresh = np.array([200, 200, 200])
     
-    console.print("Running")
+    #console.print("Running")
     mask = cv2.inRange(hsv, lower_thresh, upper_thresh)
+    mask = cv2.bitwise_not(mask)
+    
     h, w, d = image.shape
     search_top = 3 * h / 4
     search_bot = search_top + 20
-    mask[0:search_top, 0:w] = 0
-    mask[search_bot:h, 0:w] = 0
-    GUI.showImage(image)
     
     M = cv2.moments(mask)
     if M['m00'] > 0:
@@ -28,10 +27,12 @@ while True:
         cy = int(M['m01'] / M['m00'])
         cv2.circle(image, (cx, cy), 20, (0, 0, 255), -1)
         err = cx - w/2
-        
+        console.print(err)
         p = float(err)
         d = float(err) - float(prev_error)
         
-        HAL.motors.sendV(5)
+        GUI.showImage(image)
+        
+        HAL.motors.sendV(2)
         HAL.motors.sendW(-p/150 - d/150)
         prev_error = float(err)

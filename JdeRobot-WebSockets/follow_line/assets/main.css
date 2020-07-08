@@ -55,19 +55,11 @@ body{
     background-color: whitesmoke;
 }
 
-#submit:hover .tooltiptext{
-	visibility: visible;
-}
-
 #stop {
     width: 80px;
     height: 50px;
     border: none;
     background-color: whitesmoke;
-}
-
-#stop:hover .tooltiptext{
-	visibility: visible;
 }
 
 #save {
@@ -77,10 +69,6 @@ body{
     background-color: whitesmoke;
 }
 
-#save:hover .tooltiptext{
-	visibility: visible;
-}
-
 #load {
     width: 80px;
     height: 50px;
@@ -88,8 +76,11 @@ body{
     background-color: whitesmoke;
 }
 
-#load:hover .tooltiptext{
-	visibility: visible;
+#reset {
+	width: 80px;
+	height: 50px;
+	border: none;
+	background-color: whitesmoke;
 }
 
 #Frequency input[type=range]{

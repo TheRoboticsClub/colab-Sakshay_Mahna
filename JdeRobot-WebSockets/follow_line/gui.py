@@ -14,11 +14,11 @@ class GUI:
     def __init__(self, console):
         t = threading.Thread(target=self.run_server)
         
-        self.payload = {'image': '', 'shape': []}
+        self.payload = {'canvas': None,'image': '', 'shape': []}
         self.server = None
         self.client = None
         
-        self.image_lock = threading.Lock()
+        self.payload_lock = threading.Lock()
         
         # Take the console object to set the same websocket and client
         self.console = console
@@ -37,9 +37,11 @@ class GUI:
         shape = image.shape
         frame = cv2.imencode('.JPEG', image)[1]
         encoded_image = base64.b64encode(frame)
-
+        
+        self.payload_lock.acquire()
         self.payload['image'] = encoded_image.decode('utf-8')
         self.payload['shape'] = shape
+        self.payload_lock.release()
 
     # Function to get the client
     # Called when a new client is received
@@ -49,9 +51,9 @@ class GUI:
         
     # Update the gui
     def update_gui(self):
-        self.image_lock.acquire()
+        self.payload_lock.acquire()
         message = "#img" + json.dumps(self.payload)
-        self.image_lock.release()
+        self.payload_lock.release()
         
         try:
             self.server.send_message(self.client, message)
@@ -71,7 +73,7 @@ class GUI:
 class ThreadGUI(threading.Thread):
 	def __init__(self, gui):
 		self.gui = gui
-		self.time_cycle = 1000
+		self.time_cycle = 200
 		threading.Thread.__init__(self)
 		
 	def run(self):
