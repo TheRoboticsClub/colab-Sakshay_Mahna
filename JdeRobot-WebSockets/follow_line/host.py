@@ -166,7 +166,10 @@ class Template:
                 ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
                 
                 # Keep updating the iteration counter
-                self.iteration_counter = self.iteration_counter + 1
+                if(iterative_code == ""):
+                	self.iteration_counter = 0
+                else:
+                	self.iteration_counter = self.iteration_counter + 1
             
             	# The code should be run for atleast the target time step
             	# If it's less put to sleep
@@ -200,13 +203,16 @@ class Template:
             	# Division by zero
             	self.ideal_cycle = ms / self.iteration_counter
             except:
-            	self.ideal_cycle = 80
+            	self.ideal_cycle = 0
             
             # Reset the counter
             self.iteration_counter = 0
             
             # Send to client
-            self.server.send_message(self.client, "#freq" + str(round(1000 / self.ideal_cycle, 2)))
+            try:
+            	self.server.send_message(self.client, "#freq" + str(round(1000 / self.ideal_cycle, 2)))
+            except:
+            	self.server.send_message(self.client, "#freq" + str(0))
     
     # Function to maintain thread execution
     def execute_thread(self, source_code):

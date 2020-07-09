@@ -34,5 +34,5 @@ while True:
         GUI.showImage(image)
         
         HAL.motors.sendV(4)
-        HAL.motors.sendW(-p/150 - d/150)
+        HAL.motors.sendW(-p/200 - d/200)
         prev_error = float(err)

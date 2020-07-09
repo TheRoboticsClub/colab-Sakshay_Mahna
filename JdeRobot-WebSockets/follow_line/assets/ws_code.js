@@ -8,7 +8,7 @@ stop_button.disabled = true;
 stop_button.style.opacity = "0.4";
 stop_button.style.cursor = "not-allowed";
 
-var frequency = "12.5";
+var frequency = "0";
 
 //WebSocket for Code
 var websocket_code = new WebSocket("ws://127.0.0.1:1905/");
