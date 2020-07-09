@@ -150,6 +150,7 @@ class Template:
             # Run the iterative part inside template
             # and keep the check for flag
             while self.reload == False:
+            	self.server.send_message(self.client, "#pingRunning")
                 start_time = datetime.now()
                 
                 # A few changes in the reference environment, to

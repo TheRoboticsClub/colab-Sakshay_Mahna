@@ -24,10 +24,16 @@ websocket_gui.onclose = function(event){
 
 // For image object
 image.onload = function(){
-    context.drawImage(image, 0, 0);
+    update_image();
 }
 
-// What to do when a message from server is received?
+// Request Animation Frame to remove the flickers
+function update_image(){
+	window.requestAnimationFrame(update_image);
+	context.drawImage(image, 0, 0);
+}
+
+// What to do when a message from server is received
 websocket_gui.onmessage = function(event){
     var operation = event.data.substring(0, 4);
 
