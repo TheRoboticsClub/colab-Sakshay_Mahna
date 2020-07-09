@@ -94,5 +94,8 @@ websocket_code.onmessage = function(event){
 		frequency = source_code.substring(5,);
 		document.querySelector('#ideal_frequency').value = frequency;
 	}
+	else if(operation == "#ping"){
+		websocket_code.send("#pong")
+	}
 };
 

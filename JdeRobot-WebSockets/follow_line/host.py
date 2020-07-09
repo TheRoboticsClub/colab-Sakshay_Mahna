@@ -228,6 +228,9 @@ class Template:
     # The websocket function
     # Gets called when there is an incoming message from the client
     def handle(self, client, server, message):
+        if(message == "#pong"):
+        	return
+        
         try:
             # Once received turn the reload flag up and send it to execute_thread function
             code = message
