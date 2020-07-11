@@ -11,7 +11,7 @@ while True:
     image = HAL.getImage()
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower_thresh = np.array([0, 0, 0])
-    upper_thresh = np.array([200, 200, 200])
+    upper_thresh = np.array([1, 1, 360])
     
     #console.print("Running")
     mask = cv2.inRange(hsv, lower_thresh, upper_thresh)
@@ -33,6 +33,6 @@ while True:
         
         GUI.showImage(image)
         
-        HAL.motors.sendV(4)
-        HAL.motors.sendW(-p/200 - d/200)
+        #HAL.motors.sendV(4)
+        #HAL.motors.sendW(-p/150 - d/150)
         prev_error = float(err)
