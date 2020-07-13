@@ -211,7 +211,7 @@ class Template:
             # Send to client
             try:
             	self.server.send_message(self.client, "#freq" + str(round(1000 / self.ideal_cycle, 2)))
-            except:
+            except ZeroDivisionError:
             	self.server.send_message(self.client, "#freq" + str(0))
     
     # Function to maintain thread execution
