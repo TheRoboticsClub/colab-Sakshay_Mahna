@@ -123,11 +123,37 @@ table{
 }
 
 .debug-slider{
-	border-radius: 5px;
-	width: 15px;
-	height: 100%;
 	background: #d3d3d3;
+	-webkit-transform: rotate(-90deg);
+	margin-top: 45%;
+	width: 175px;
 	outline: none;
+}
+
+.debug-slider::-webkit-slider-runnable-track{
+	width: 100%;
+	border: none;
+	border-radius: 5px;
+}
+
+.debug-slider::-webkit-slider-thumb{
+	border: none;
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+}
+
+.debug-slider:focus{
+	outline: none;
+}
+
+.debug-labels{
+	float: left;
+	padding-left: 0;
+}
+
+.debug-labels li{
+	margin-bottom: 0px;
 }
 
 #code_container{

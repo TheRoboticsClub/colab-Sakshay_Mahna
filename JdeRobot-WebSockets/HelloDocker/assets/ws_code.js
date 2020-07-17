@@ -33,6 +33,7 @@ function submitCode(){
     
     // Get the debug level and add header
 	var debug_level = document.querySelector('input[name = "debug"]').value;
+	debug_level = 2;
     python_code = "#dbug" + debug_level + python_code
     
     // Add freqeuncy header
