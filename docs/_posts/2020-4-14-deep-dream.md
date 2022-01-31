@@ -4,7 +4,7 @@ title:  "Deep Dream"
 date:   2020-04-14 18:00:00 +0530
 categories: deep-dream
 ---
-Deep Dream is a computer vision program, developed by Google engineer Alexander Mordvintsev that turns simple images into dream-like psychedelic image. The program uses CNNs behind the scenes to make this happen. This post discusses about this algorithm and its implementation.
+Deep Dream is a computer vision program, developed by the Google engineer Alexander Mordvintsev that turns simple images into dream-like psychedelic image. The program uses CNNs behind the scenes to make this happen. This post discusses about this algorithm and its implementation.
 
 ![Psychedelic Images](https://upload.wikimedia.org/wikipedia/commons/e/e1/Tie-dye.png)
 
