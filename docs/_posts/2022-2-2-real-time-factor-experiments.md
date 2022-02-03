@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Real Time Factor Experiments"
-date:   2022-02-2 10:30:00 +0530
+date:   2022-02-02 10:30:00 +0530
 categories: rtf
 ---
 The RTF (Real Time Factor) plays a crucial role in determining the performance of the network. According to qualitative experiments (visually observing behavior), the NARX network is able to complete a difficult curve in Montmelo Circuit when the RTF is reduced. In this blog post, we study the effects of changing Real Time Update Rate on NARX network quantitatively for Simple Circuit.
